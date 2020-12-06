@@ -28,7 +28,7 @@ $(CO).dvi: $(CO).tex $(CO).bib
 
 clean:
 	rm -f *.dvi *.log $(CO).blg $(CO).bbl $(CO).toc *.aux $(CO).out $(CO).lof $(CO).ptc
-	rm -f $(CO).pdf
+	# rm -f $(CO).pdf
 	rm -f *~
 
 pack:
