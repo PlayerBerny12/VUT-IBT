@@ -1,0 +1,15 @@
+# objcet file folder
+src/obj/*
+
+# executables
+src/run
+src/run_tests
+
+# latex
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.ptc
+*.toc

@@ -429,26 +429,26 @@ Matematické symboly ($\alpha$) a výrazy lze umístit i do textu $\cos\pi=-1$ a
 Obrázek~\ref{sirokyObrazek} ukazuje široký obrázek složený z více menších obrázků. Klasický rastrový obrázek se vkládá tak, jak je vidět na obrázku \ref{keepCalm}.
 
 % Využití \begin{figure*} způsobí, že obrázek zabere celou šířku stránky. Takový obrázek dříve mohl být pouze na začátku stránky, případně na konci s využitím balíčku dblfloatfix (případné [h] se ignorovalo a [H] obrázek odstraní). Nové verze LaTeXu už umí i [h].
-\begin{figure*}[h]\centering
-  \centering
-  \includegraphics[width=\linewidth,height=1.7in]{obrazky-figures/placeholder.pdf}\\[1pt]
-  \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}\hfill
-  \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}\hfill
-  \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}\hfill
-  \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}
-  \caption{\textbf{Široký obrázek.} Obrázek může být složen z více menších obrázků. Chcete-li se na tyto dílčí obrázky odkazovat z textu, využijte balíček \texttt{subcaption}.}
-  \label{sirokyObrazek}
-\end{figure*}
+% \begin{figure*}[h]\centering
+%   \centering
+%   \includegraphics[width=\linewidth,height=1.7in]{obrazky-figures/placeholder.pdf}\\[1pt]
+%   \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}\hfill
+%   \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}\hfill
+%   \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}\hfill
+%   \includegraphics[width=0.24\linewidth]{obrazky-figures/placeholder.pdf}
+%   \caption{\textbf{Široký obrázek.} Obrázek může být složen z více menších obrázků. Chcete-li se na tyto dílčí obrázky odkazovat z textu, využijte balíček \texttt{subcaption}.}
+%   \label{sirokyObrazek}
+% \end{figure*}
 
 % Odkomentujte pro přepnutí na formát A3 na šířku
 % \eject \pdfpagewidth=420mm
 
-\begin{figure}[hbt]
-	\centering
-	\includegraphics[width=0.3\textwidth]{obrazky-figures/keep-calm.png}
-	\caption{Dobrý text je špatným textem, který byl několikrát přepsán. Nebojte se prostě něčím začít.}
-	\label{keepCalm}
-\end{figure}
+% \begin{figure}[hbt]
+% 	\centering
+% 	\includegraphics[width=0.3\textwidth]{obrazky-figures/keep-calm.png}
+% 	\caption{Dobrý text je špatným textem, který byl několikrát přepsán. Nebojte se prostě něčím začít.}
+% 	\label{keepCalm}
+% \end{figure}
 
 Někdy je potřeba do příloh umístit diagram, který se nevejde na stránku formátu A4. Pak je možné vložit jednu stránku formátu A3 a do práce ji poskládat (tzv. skládání do~Z, kdy se vytvoří dva sklady -- lícem dolů a lícem nahoru, angl. Engineering fold -- existuje i~anglický pojem Z-fold, ale při tom by byl problém s vazbou). Přepnutí se provádí následovně: \texttt{\textbackslash{}eject \textbackslash{}pdfpagewidth=420mm} (pro přepnutí zpět pak 210mm).
 

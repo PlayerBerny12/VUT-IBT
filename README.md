@@ -1,7 +1,7 @@
 # Bakalářská práce
 ## Aplikace pro řízený přístup ke vzdáleným dokumentům pro GNU/Linux
 
-**Autor:** Bernard Jan - xberna18@stud.fit.vutbr.cz
+**Autor:** Bernard Jan - xberna18@stud.fit.vutbr.cz \
 **Vedoucí:** Rychlý Marek, RNDr., Ph.D. (UIFS FIT VUT) - rychly@fit.vut.cz
 
 ---
