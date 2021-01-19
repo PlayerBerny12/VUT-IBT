@@ -77,26 +77,39 @@ int API::ping()
     // check returned response
     if (res != CURLE_OK)
     {
-        return 1;
+        return -1;
     }
     else
     {
-        if (res_code == 204)
-        {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
+        return res_code;        
     }
 }
 
 /**
  * Authorization token (key) renewal.
  */
-int API::auth_key_get() {
-    return 0;
+int API::auth_key_get(map<string, string> *header_values) {
+    // set parameters
+    curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "auth/key").c_str());    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);
+    
+    // perform request
+    CURLcode res = curl_easy_perform(this->curl);
+
+    // get response status code
+    long res_code = 0;
+    curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);   
+
+    // check returned response
+    if (res != CURLE_OK)
+    {
+        return -1;
+    }
+    else
+    {
+        return res_code;        
+    }
 }
 
 /**
@@ -120,49 +133,121 @@ int API::auth_key_post(string from, map<string, string> *header_values)
     // check returned response
     if (res != CURLE_OK)
     {
-        return 1;
+        return -1;
     }
     else
     {
-        if (res_code == 201)
-        {
-            return 0;
-        }
-        else if (res_code == 401)
-        {
-            return 1;
-        }
-        else
-        {
-            return 1;
-        }
+        return res_code;        
     }
 }
 
 /**
  * Authorization token (key) invalidation.
  */
-int API::auth_key_delete() {
-    return 0;
+int API::auth_key_delete(map<string, string> *header_values) {
+    // set parameters
+    curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "auth/key").c_str());    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);    
+    curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+    
+    // perform request
+    CURLcode res = curl_easy_perform(this->curl);
+
+    // get response status code
+    long res_code = 0;
+    curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);   
+
+    // check returned response
+    if (res != CURLE_OK)
+    {
+        return -1;
+    }
+    else
+    {
+        return res_code;        
+    }
 }
 
 /**
  * Get the content of a file available by the given access token.
  */
-int API::file_get() {
-    return 0;
+int API::file_get(map<string, string> *header_values, char *content) {
+    // set parameters
+    curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + this->x_api_key).c_str());    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);        
+    
+    // perform request
+    CURLcode res = curl_easy_perform(this->curl);
+
+    // get response status code
+    long res_code = 0;
+    curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);   
+
+    // check returned response
+    if (res != CURLE_OK)
+    {
+        return -1;
+    }
+    else
+    {
+        return res_code;        
+    }
 }
 
 /**
  * Post/upload the content of a file available by the given access token.
  */
-int API::file_post() { 
-    return 0;
+int API::file_post(map<string, string> *header_values, char *content) { 
+    // set parameters
+    curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + this->x_api_key).c_str());    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);      
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "");  
+    
+    // perform request
+    CURLcode res = curl_easy_perform(this->curl);
+
+    // get response status code
+    long res_code = 0;
+    curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);   
+
+    // check returned response
+    if (res != CURLE_OK)
+    {
+        return -1;
+    }
+    else
+    {
+        return res_code;        
+    }
 }
 
 /**
  * To invalid the given file access token.
  */
-int API::file_delete() {
-    return 0;
+int API::file_delete(map<string, string> *header_values) {
+    // set parameters
+    curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + this->x_api_key).c_str());    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);    
+    curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);      
+    curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+    
+    // perform request
+    CURLcode res = curl_easy_perform(this->curl);
+
+    // get response status code
+    long res_code = 0;
+    curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);   
+
+    // check returned response
+    if (res != CURLE_OK)
+    {
+        return -1;
+    }
+    else
+    {
+        return res_code;        
+    }
 }

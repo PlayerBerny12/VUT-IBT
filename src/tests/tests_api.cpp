@@ -1,5 +1,15 @@
+// ************************************************************************ //
+// **   Project: Aplikace pro řízený přístup                             ** //
+// **            ke vzdáleným dokumentům pro GNU/Linux                   ** //
+// **   University: VUT FIT Brno                                         ** //
+// **   Authors: Jan Bernard                                             ** //
+// **   Created: 2.12.2020                                               ** //
+// **   Module: Test API - code                                          ** //
+// ************************************************************************ //
+
 #include "../api.h"
 #include "gtest/gtest.h"
+#include <map>
 
 class APITest : public ::testing::Test {
 protected:
@@ -30,5 +40,35 @@ protected:
 };
 
 TEST_F(APITest, ping) {
-    ASSERT_EQ(testAPI.ping(), 0);
+    ASSERT_EQ(testAPI.ping(), 204);
+}
+
+TEST_F(APITest, auth_key_get) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.auth_key_get(&header), 200);
+}
+
+TEST_F(APITest, auth_key_post) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.auth_key_post("user", &header), 201);
+}
+
+TEST_F(APITest, auth_key_delete) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.auth_key_delete(&header), 204);
+}
+
+TEST_F(APITest, file_get) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.file_get(&header, nullptr), 200);
+}
+
+TEST_F(APITest, file_post) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.file_post(&header, nullptr), 201);
+}
+
+TEST_F(APITest, file_delete) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.file_delete(&header), 204);
 }
