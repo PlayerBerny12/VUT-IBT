@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "stdexcept": "cpp",
+        "xstring": "cpp",
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "sstream": "cpp",
+        "atomic": "cpp",
+        "utility": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp"
+    }
+}

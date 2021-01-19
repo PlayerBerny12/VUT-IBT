@@ -5,6 +5,9 @@ src/obj/*
 src/run
 src/run_tests
 
+# doxygen generated documentation
+src/doxygen_docs
+
 # latex
 *.aux
 *.bbl
