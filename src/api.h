@@ -23,22 +23,32 @@ using namespace std;
 class API
 {
 private:
-    const string base_url;
-    string x_api_key;
+    const string base_url;    
+    struct curl_slist *request_header;
+    
     CURL *curl;
 
     static size_t header_parse(char *buffer, size_t size, size_t nitems, void *userdata); 
     size_t read_callback(char *buffer, size_t size, size_t nitems, void *userdata); 
 
 public:    
+    string x_api_key;
+    
     API(const string url);
     ~API();
+    //status: check test
     int ping();
+    //status: in progress
     int auth_key_get(map<string, string> *header_values);
+    //status: tbd
     int auth_key_post(string from, map<string, string> *header_values);
+    //status: tbd
     int auth_key_delete(map<string, string> *header_values); 
+    //status: tbd
     int file_get(map<string, string> *header_values, char *content);
+    //status: tbd
     int file_post(map<string, string> *header_values, char *content);
+    //status: tbd
     int file_delete(map<string, string> *header_values);
 };
 

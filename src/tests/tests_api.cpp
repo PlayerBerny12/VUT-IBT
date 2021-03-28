@@ -13,7 +13,7 @@
 
 class APITest : public ::testing::Test {
 protected:
-    APITest() : testAPI("https://bf27a80b-c291-46b2-8c4c-fe616fa3a822.mock.pstmn.io/")
+    APITest() : testAPI("https://e526bc93-da2e-4001-94a3-d9fa02033458.mock.pstmn.io/")
     {
         // You can do set-up work for each test here.                        
     }
@@ -27,7 +27,6 @@ protected:
     {
         // Code here will be called immediately after the constructor (right
         // before each test).
-        
     }
 
     void TearDown() override
