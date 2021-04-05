@@ -129,7 +129,7 @@ paths:
           schema:
             type: string
         responses:
-          '201': 
+          '204': 
             description: The success.
             headers:
               Date:

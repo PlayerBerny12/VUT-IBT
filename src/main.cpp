@@ -14,14 +14,83 @@ int main() {
     curl_global_init(CURL_GLOBAL_DEFAULT);
 
     // Creating API class
-    auto api = API("https://bf27a80b-c291-46b2-8c4c-fe616fa3a822.mock.pstmn.io/");
+    auto api = API("https://e526bc93-da2e-4001-94a3-d9fa02033458.mock.pstmn.io/");    
     
-    // Testing API call
-    map<string, string> xd;
-    auto res = api.auth_key_post("asd", &xd);
-    cout << res;
+    map<string, string> header_values;
+    char content[10000];
+    
+    // Testing API call #1
+    api.request_header = curl_slist_append(api.request_header, "x-mock-response-code: 200");
+    auto res = api.auth_key_get(&header_values);
+    
+    cout << res << endl;
+    for (auto&& [key,val] : header_values) {
+        cout << key << ": " << val  << ", ";
+    }
+    cout << endl << endl;
+    header_values.clear();
+    //---------------------//
+
+    // Testing API call #2
+    api.request_header = curl_slist_append(api.request_header, "x-mock-response-code: 201");
+    res = api.auth_key_post("", &header_values);
+    
+    cout << res << endl;
+    for (auto&& [key,val] : header_values) {
+        cout << key << ": " << val  << ", ";
+    }
+    cout << endl << endl;
+    header_values.clear();
     //---------------------//
     
+    // Testing API call #3
+    api.request_header = curl_slist_append(api.request_header, "x-mock-response-code: 204");
+    res = api.auth_key_delete(&header_values);
+    
+    cout << res << endl;
+    for (auto&& [key,val] : header_values) {
+        cout << key << ": " << val  << ", ";
+    }
+    cout << endl << endl;
+    header_values.clear();
+    //---------------------//
+
+    // Testing API call #4    
+    api.request_header = curl_slist_append(api.request_header, "x-mock-response-code: 200");
+    res = api.file_get(&header_values, content);
+    
+    cout << res << endl;
+    for (auto&& [key,val] : header_values) {
+        cout << key << ": " << val  << ", ";
+    }
+    cout << endl << endl;
+    header_values.clear();
+    //---------------------//
+
+    // Testing API call #5    
+    api.request_header = curl_slist_append(api.request_header, "x-mock-response-code: 201");
+    res = api.file_post(&header_values, content);
+    
+    cout << res << endl;
+    for (auto&& [key,val] : header_values) {
+        cout << key << ": " << val  << ", ";
+    }
+    cout << endl << endl;
+    header_values.clear();
+    //---------------------//
+
+    // Testing API call #6
+    api.request_header = curl_slist_append(api.request_header, "x-mock-response-code: 204");
+    res = api.file_delete(&header_values);
+    
+    cout << res << endl;
+    for (auto&& [key,val] : header_values) {
+        cout << key << ": " << val  << ", ";
+    }
+    cout << endl << endl;
+    header_values.clear();
+    //---------------------//
+
     // Global libcurl cleanup 
     curl_global_cleanup();
 

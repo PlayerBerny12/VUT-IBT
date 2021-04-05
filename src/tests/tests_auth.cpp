@@ -4,14 +4,23 @@
 // **   University: VUT FIT Brno                                         ** //
 // **   Authors: Jan Bernard                                             ** //
 // **   Created: 2.12.2020                                               ** //
-// **   Module: Test Main - code                                         ** //
+// **   Module: Tests API Auth - code                                    ** //
 // ************************************************************************ //
 
+#include "tests.h"
+#include <map>
 
-#include "gtest/gtest.h"
+TEST_F(APITest, auth_key_get) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.auth_key_get(&header), 200);
+}
 
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+TEST_F(APITest, auth_key_post) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.auth_key_post("user", &header), 201);
+}
+
+TEST_F(APITest, auth_key_delete) {
+    map<string, string> header;
+    ASSERT_EQ(testAPI.auth_key_delete(&header), 204);
 }

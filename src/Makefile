@@ -15,11 +15,13 @@ OBJDIR = obj
 SRCFILES = api.cpp string.cpp 
 OBJFILES = $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRCFILES))
 
-SRCTESTFILES = tests_api.cpp
+SRCTESTFILES = tests_ping.cpp tests_auth.cpp tests_file.cpp
 OBJTESTFILES = $(patsubst %.cpp,$(OBJDIR)/%.o,$(SRCTESTFILES))
 
 TARGET = run
 TARGETTESTS = run_tests
+
+all: build
 
 run: build
 	./$(TARGET)
@@ -28,16 +30,16 @@ run_tests: build_tests
 	./$(TARGETTESTS)
 
 build: $(OBJFILES)
-	$(CPP) $(CPPFLAGS) -o $(TARGET) $^ main.cpp -lcurl
+	$(CPP) $(CPPFLAGS) -o $(TARGET) $^ main.cpp -lcurl -g
 
 $(OBJDIR)/%.o: %.cpp
-	$(CPP) $(CPPFLAGS) -c -o $@ $<
+	$(CPP) $(CPPFLAGS) -c -o $@ $< -g
 
 # $(OBJDIR)/api.o: $(OBJDIR)/string.o api.cpp 
 # 	$(CPP) $(CPPFLAGS) -c -o $@ $^
 
 build_tests: $(OBJTESTFILES) $(OBJFILES)
-	$(CPP) $(CPPFLAGS) -pthread -o $(TARGETTESTS) $? tests/main.cpp -lgtest -lpthread -lcurl
+	$(CPP) $(CPPFLAGS) -pthread -o $(TARGETTESTS) $? tests/tests.cpp -lgtest -lpthread -lcurl
 
 $(OBJDIR)/%.o: tests/%.cpp
 	$(CPP) $(CPPFLAGS) -c -o $@ $<

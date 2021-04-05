@@ -1,0 +1,18 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/mnt/hgfs/BP/src",
+            "binaryPath": "/mnt/hgfs/BP/src/run",
+            "binaryArgs": []
+        },
+        {
+            "cwd": "/mnt/hgfs/BP/src",
+            "binaryPath": "/mnt/hgfs/BP/src/run_tests",
+            "binaryArgs": []
+        }
+    ],
+    "files.associations": {
+        "*.tcc": "cpp"
+    }
+}

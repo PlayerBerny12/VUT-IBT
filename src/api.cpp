@@ -9,6 +9,21 @@
 
 #include "api.h"
 
+API::API(string url) : base_url(url), request_header(nullptr)
+{
+    this->curl = curl_easy_init();
+
+    if (this->curl == nullptr)
+    {
+        throw runtime_error("Creating CURL easy session failed.");
+    }
+}
+
+API::~API()
+{
+    curl_easy_cleanup(this->curl);
+}
+
 size_t API::header_parse(char *buffer, size_t size, size_t nitems, void *userdata)
 {
     map<string, string> *header_values = (map<string, string> *)userdata;
@@ -39,25 +54,10 @@ size_t API::header_parse(char *buffer, size_t size, size_t nitems, void *userdat
     return nitems * size;
 }
 
-size_t read_callback(char *buffer, size_t size, size_t nitems, void *userdata)
-{
+size_t API::read_callback(char *buffer, size_t size, size_t nitems, void *userdata)
+{    
     cout << buffer << endl;
     return nitems * size;
-}
-
-API::API(string url) : base_url(url)
-{
-    this->curl = curl_easy_init();
-
-    if (this->curl == nullptr)
-    {
-        throw runtime_error("Creating CURL easy session failed.");
-    }
-}
-
-API::~API()
-{
-    curl_easy_cleanup(this->curl);
 }
 
 /**
@@ -70,10 +70,13 @@ int API::ping()
 
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
-
+    
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
+   
+    // cleanup
+    curl_easy_reset(this->curl); 
 
     // check returned response
     if (res != CURLE_OK)
@@ -92,7 +95,7 @@ int API::ping()
 int API::auth_key_get(map<string, string> *header_values)
 {
     // set http request header values
-    this->request_header = curl_slist_append(this->request_header, "X-Api-Key: " + this->x_api_key);
+    this->request_header = curl_slist_append(this->request_header, ("X-Api-Key: " + this->x_api_key).c_str());
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "auth/key").c_str());
@@ -105,12 +108,14 @@ int API::auth_key_get(map<string, string> *header_values)
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
 
-    // free http header
-    curl_slist_free_all(this->request_header);
-
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
+
+    // cleanup
+    curl_easy_reset(this->curl);
+    curl_slist_free_all(this->request_header);
+    this->request_header = nullptr;
 
     // check returned response
     if (res != CURLE_OK)
@@ -129,9 +134,10 @@ int API::auth_key_get(map<string, string> *header_values)
 int API::auth_key_post(string from, map<string, string> *header_values)
 {
     // set http request header values
-    this->request_header = curl_slist_append(this->request_header, "From: " + from);
+    this->request_header = curl_slist_append(this->request_header, ("From: " + from).c_str());
 
     // set request parameters
+    curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "auth/key").c_str());
     curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, this->request_header);
     
@@ -142,12 +148,14 @@ int API::auth_key_post(string from, map<string, string> *header_values)
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
 
-    // free http header
-    curl_slist_free_all(this->request_header);
-
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
+
+    // cleanup
+    curl_easy_reset(this->curl);
+    curl_slist_free_all(this->request_header);
+    this->request_header = nullptr;
 
     // check returned response
     if (res != CURLE_OK)
@@ -166,7 +174,7 @@ int API::auth_key_post(string from, map<string, string> *header_values)
 int API::auth_key_delete(map<string, string> *header_values)
 {
     // set http request header values
-    this->request_header = curl_slist_append(this->request_header, "X-Api-Key: " + this->x_api_key);
+    this->request_header = curl_slist_append(this->request_header, ("X-Api-Key: " + this->x_api_key).c_str());
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -180,12 +188,14 @@ int API::auth_key_delete(map<string, string> *header_values)
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
 
-    // free http header
-    curl_slist_free_all(this->request_header);
-
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
+    
+    // cleanup
+    curl_easy_reset(this->curl);
+    curl_slist_free_all(this->request_header);
+    this->request_header = nullptr;
 
     // check returned response
     if (res != CURLE_OK)
@@ -204,7 +214,7 @@ int API::auth_key_delete(map<string, string> *header_values)
 int API::file_get(map<string, string> *header_values, char *content)
 {
     // set http request header values
-    this->request_header = curl_slist_append(this->request_header, "X-Api-Key: " + this->x_api_key);
+    this->request_header = curl_slist_append(this->request_header, ("X-Api-Key: " + this->x_api_key).c_str());
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + this->x_api_key).c_str());
@@ -213,16 +223,19 @@ int API::file_get(map<string, string> *header_values, char *content)
     // set callbacks with arguments
     curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, header_values);
     curl_easy_setopt(this->curl, CURLOPT_HEADERFUNCTION, header_parse);
-
+    curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, read_callback);
+    
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
-
-    // free http header
-    curl_slist_free_all(this->request_header);
 
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
+
+    // cleanup
+    curl_easy_reset(this->curl);
+    curl_slist_free_all(this->request_header);
+    this->request_header = nullptr;
 
     // check returned response
     if (res != CURLE_OK)
@@ -241,7 +254,7 @@ int API::file_get(map<string, string> *header_values, char *content)
 int API::file_post(map<string, string> *header_values, char *content)
 {
     // set http request header values
-    this->request_header = curl_slist_append(this->request_header, "X-Api-Key: " + this->x_api_key);
+    this->request_header = curl_slist_append(this->request_header, ("X-Api-Key: " + this->x_api_key).c_str());
     this->request_header = curl_slist_append(this->request_header, "Content-Encoding: ");
     this->request_header = curl_slist_append(this->request_header, "Content-Length: ");
     this->request_header = curl_slist_append(this->request_header, "Content-Location: ");
@@ -249,6 +262,7 @@ int API::file_post(map<string, string> *header_values, char *content)
     this->request_header = curl_slist_append(this->request_header, "Content-Type: ");    
 
     // set request parameters
+    curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_easy_setopt(this->curl, CURLOPT_URL, (this->base_url + "file/" + this->x_api_key).c_str());
     curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, this->request_header);
     
@@ -259,12 +273,14 @@ int API::file_post(map<string, string> *header_values, char *content)
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
 
-    // free http header
-    curl_slist_free_all(this->request_header);
-
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
+
+    // cleanup
+    curl_easy_reset(this->curl);
+    curl_slist_free_all(this->request_header);
+    this->request_header = nullptr;
 
     // check returned response
     if (res != CURLE_OK)
@@ -283,7 +299,7 @@ int API::file_post(map<string, string> *header_values, char *content)
 int API::file_delete(map<string, string> *header_values)
 {
     // set http request header values
-    this->request_header = curl_slist_append(this->request_header, "X-Api-Key: " + this->x_api_key);
+    this->request_header = curl_slist_append(this->request_header, ("X-Api-Key: " + this->x_api_key).c_str());
 
     // set request parameters
     curl_easy_setopt(this->curl, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -297,12 +313,14 @@ int API::file_delete(map<string, string> *header_values)
     // perform request
     CURLcode res = curl_easy_perform(this->curl);
 
-    // free http header
-    curl_slist_free_all(this->request_header);
-
     // get response status code
     long res_code = 0;
     curl_easy_getinfo(this->curl, CURLINFO_RESPONSE_CODE, &res_code);
+
+    // cleanup
+    curl_easy_reset(this->curl);
+    curl_slist_free_all(this->request_header);
+    this->request_header = nullptr;
 
     // check returned response
     if (res != CURLE_OK)

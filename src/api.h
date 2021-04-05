@@ -23,16 +23,16 @@ using namespace std;
 class API
 {
 private:
-    const string base_url;    
-    struct curl_slist *request_header;
+    const string base_url;        
     
     CURL *curl;
 
     static size_t header_parse(char *buffer, size_t size, size_t nitems, void *userdata); 
-    size_t read_callback(char *buffer, size_t size, size_t nitems, void *userdata); 
+    static size_t read_callback(char *buffer, size_t size, size_t nitems, void *userdata); 
 
 public:    
     string x_api_key;
+    struct curl_slist *request_header;
     
     API(const string url);
     ~API();
