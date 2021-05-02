@@ -1,0 +1,150 @@
+\chapter{Úvod}
+
+V době vysokorychlostního a stabilního internetu je využívání vzdálených uložišť běžnou záležitostí. Pro většinu uživatelů je to nástroj
+pro jednoduchou synchronizaci dat napříč několika zařízeními od mobilního telefonu po stolní počítač. Pokud vezmeme v úvahu pouze velká datová centra,
+jedná se pravděpodobně o nejlevnější a nejspolehlivější způsob uchování dat, protože tyto centra mívají různé zálohy na softwarové i hardwarové úrovni.
+Pod pojmem vzdálené uložiště si nemusíme představit jen velká datová centra se stovkami serverů, může se jednat o relativně malé uložiště
+ve firmě nebo dokonce o osobní/domácí řešení. Pro využívaní osobních/firemních uložišť se lidé uchylují v případech, je-li třeba uložit osobní nebo
+určitým způsobem citlivá data, která by nemohla být poskytnuta třetí straně. Nabízená řešení také nemusí poskytovat potřebnou funkcionalitu nebo jejich finanční model
+nesplňuje zákazníkova kritéria.
+
+V průběhu let byly vyvinuty protokoly řešící sdílení souborů jako FTP, TFTP, SFTP, NFS a další. Sdílení souborů je komplexní záležitostí a obsahuje
+velké množství parametrů. Každý protokol se zaměřuje jen na určité parametry jako zabezpečení a spolehlivost přenosu, oprávnění pro jednotlivé
+uživatele a soubory, synchronizace modifikovaných souborů apod. V dnešní době je většina komerčně využívaných aplikací vystavěna na proprietárních protokolech nebo
+na protokolech umožňující obecnější použití. Jedním z obecně nejpoužívanějších aplikačních protokolů bude Hypertext Transfer Protokol neboli HTTP.
+
+Cílem této práce je prozkoumat aktuální nabídku a možnosti na poli vzdálených uložišť a navrhnout aplikaci pro řízený přístup ke vzdáleným dokumentům pro
+platformu \mbox{GNU/Linux}. Aplikace bude zaměřena na řízený životní cyklus souborů s vynucenými oprávněními pro jednotlivé soubory daná vzdáleným uložištěm.
+Komunikace skrze HTTP protokol byla definovaná externím zadavatelem. Zdrojové kódy jsou dostupné na veřejném Github repozitáři.
+\footnote{\url{https://github.com/PlayerBerny12/VUT-IBT-Code}}
+
+\chapter{Motivace a existující řešení}
+
+Využívaní vzdálených uložišť roste, protože lidé využívají více zařízení a potřebují mezi nimi jednoduchou synchronizaci nebo na jednom souboru potřebuje spolupracovat
+více lidí. Dalším podnětem využívání vzdálených uložišť je generování většího množství dat, které jako lidé vytváříme. Postupně se digitalizují další systémy například 
+ve státní správě nebo dalších podnikatelských sektorech. 
+
+Na trhu je velké množství služeb zaměřujících se na různé klientské sektory s různými požadavky. Diverzita těchto služeb je až překvapivě velká. Většina se snaží
+o obecně použitelné ukládání/sdílení dat, pokud jsou požadavky na tuto službu specifické, tak možnost úpravy konfigurace těchto služeb nebývá velká. Poté nezbývá než vystavět
+obdobnou službu z existujících aplikací nebo vytvořit novou na existujících technologiích.\\
+
+\noindent V kontextu této práce jsou požadavky následující: 
+
+\begin{itemize}
+    \item Dodržování oprávnění i na klientském systému
+    \begin{itemize}
+        \item read-only
+        \item write-only
+        \item read/write
+    \end{itemize}
+    \item Životní cyklus souboru (stažení)
+    \begin{itemize}
+        \item stažení
+        \item případná modifikace
+        \item smazání souboru po vypršení platnosti
+    \end{itemize}
+    \item Autentifikace
+    \begin{itemize}
+        \item uživatelské jméno a klientský certifikát
+        \item uživatelské jméno a heslo
+    \end{itemize}
+\end{itemize}
+
+\section{Současná řešení}
+
+Pro bližší analýzu bylo vybráno jen několik služeb a programů. Zkoumáno bylo několik parametrů, jako poskytovaná funkcionalita pro jednotlivce a firmy, cena,
+integrace s ostatními aplikacemi apod. Služby od Googlu a Microsoftu není možné pořídit jednotlivě, ale dodávají se v balíčcích obsahující další software
+nebo služby. Obecně nelze vybrat nejlepší vzdálené uložiště, ale je možné poukázat na rozdílné vlastnosti a koncový uživatel ať si vybere podle svých potřeb.
+
+\section{Google File Stream}
+
+Jedná se o apliakci synchronizující data ze všech Google disků, ke kterým má daný uživatel přístup. Aplikaci je možné provozovat pouze na systémech
+Windows a Mac OS.\cite{GoogleFileStream} Google Disk poskytuje plně funkční webové rozhraní, ve kterém je možné dokumenty přímo upravovat bez nutnotsti stahování. 
+Problém nenastane ani v případě Microsoft Office dokumentů, což je stále velmi využívaný softwareový balík kancelářských programů.
+
+Google Workspace (dříve Google Suite) je možné pořídit v několika balíčcích. Například balíček Bussiness Standard nabízí 2 TB uložiště za 10,40 EUR. Balíček obashuje
+další služby jako firemní email a schůzky až o 150 účastnících na Google Meet.\cite{GoogleWorkspace}
+
+Každý uživatel má vlastní disk s omezenou kapacitou podle balíčku. Na disku lze vytvářet standartní složkovou hiearchii a je možné sdílet jednotlivé soubory nebo
+obsah složek s ostatními uživateli. Verze Enterprise umožňuje vytváření dalších disků, na které je možné přiřadit seznam uživatelů. Každý uživatel má nastavenou jednu 
+z 6 rolí, které vymezují jeho možnosti. K dispozici je API, která pokrývá veškeré možnosti webového rozhraní jako vytvoření souboru, sdílení apod.\cite{GoogleAPIReference}
+
+\section{Dropbox}
+
+Aplikace Dropbox má balíčky pro Ubuntu a Fedoru, případně jejich deriváty a také je možnost zkompilovat ji ze zdrojových souborů. 
+Z práce "Personal Cloud Storage Benchmarks and Comparison" je vidět, že Dropbox se zaměřuje na efektivitu přenosu a minimální zatížení sítě.
+Využívá manší množství TCP spojení oproti jeho konkurentům a také satejně jako Google Drive komprimuje data před odesláním.\cite{CloudStorageComparison}
+Toto řešení nemusí dosahovat nejvyšší výkonosti, ale nezatěžuje tolik infrastrukturu. 
+
+Webové rozhraní je více orientováno na správu souborů a jejich historii. Nabízí jednoduché obnovení smazaných souborů nebo návrat k předchozí verzi.
+Nenabízí tolik možností jako Google Drive, ale upravovat dokumenty ve webovém prohlížeči lze také. Na výběr je mezi Microsoft Office Online nebo Google Worksapce.
+Sdílení souborů a složek je možné i s uživateli, kteří nemají Dropbox účet.
+
+Balíček Plus za 9,99 EUR dává uživateli přístup ke 2 TB uloložišti. Firemní balíčky obsahují rozšíření pro lepší správu uživatelů, vytváření skupin a admin panel/konzole.
+Dropbox má také pro své uživatele API.\cite{Dropbox}
+
+\section{Microsoft OneDrive}
+
+\cite{Microsoft365}
+
+\section{Syncthing}
+\section{Rsync}
+
+\chapter{Návrh řešení a použité technologie}
+
+\section{Architektura}
+\subsection{Případ užití}
+
+\section{Technologie}
+\subsection{GNU/Linux}
+\subsection{C++/C}
+\subsection{OpenAPI}
+\subsection{HTTP}
+
+\cite{RFC7231}
+\cite{HTTP3}
+
+\subsection{Mock server}
+
+\cite{MockServer}
+
+\subsection{Souborový systém v uživatelském prostoru (FUSE)}
+
+\cite{FuseOrNotToFuse}
+\cite{HardeningFUSE}
+
+\subsection{DBus}
+\subsection{Keyring}
+
+\cite{Keyring}
+
+\chapter{Popis implementace a nasazení aplikace}
+
+- Seznam použitých knihoven
+
+\section{Definice API}
+\section{Mock server}
+\section{Vyžívané cesty/soubory v Linuxové adresářové struktuře}
+\subsection{Konfigurační soubor}
+\subsection{SQLite databáze}
+\section{Autentifikace}
+\section{Práce se soubory}
+\subsection{Otevření souboru v příslušné aplikaci}
+
+\cite{xdg}
+
+\section{Nasazení aplikace}
+\subsection{DPKG} %APT
+\subsection{RPM} %DNF/YUM
+\subsection{Sestavení ze zdrojových souborů}
+
+\chapter{Testovací sada}
+
+- Testy pro funkce třídy API
+
+\section{Google Test}
+
+\chapter{Závěr}
+
+
+

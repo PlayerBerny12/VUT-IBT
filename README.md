@@ -14,3 +14,7 @@
 3.  Po konzultaci s vedoucím navrženou aplikaci implementujte, včetně automatických testů.
 
 4.  Výsledek popište, vyhodnoťte a zveřejněte jako open-source.
+
+---
+
+Zdrojové kódy: [VUT-IBT-Code Github repository](https://github.com/PlayerBerny12/VUT-IBT-Code)
