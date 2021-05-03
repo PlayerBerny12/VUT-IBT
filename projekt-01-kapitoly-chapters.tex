@@ -2,16 +2,17 @@
 
 V době vysokorychlostního a stabilního internetu je využívání vzdálených uložišť běžnou záležitostí. Pro většinu uživatelů je to nástroj
 pro jednoduchou synchronizaci dat napříč několika zařízeními od mobilního telefonu po stolní počítač. Pokud vezmeme v úvahu pouze velká datová centra,
-jedná se pravděpodobně o nejlevnější a nejspolehlivější způsob uchování dat, protože tyto centra mívají různé zálohy na softwarové i hardwarové úrovni.
-Pod pojmem vzdálené uložiště si nemusíme představit jen velká datová centra se stovkami serverů, může se jednat o relativně malé uložiště
-ve firmě nebo dokonce o osobní/domácí řešení. Pro využívaní osobních/firemních uložišť se lidé uchylují v případech, je-li třeba uložit osobní nebo
+jedná se pravděpodobně o nejlevnější a nejspolehlivější způsob uchování dat, protože tyto centra mají velkou kapacitu úložného prostoru a také zálohy na
+softwarové i hardwarové úrovni. Pod pojmem vzdálené uložiště si nemusíme představit jen velká datová centra se stovkami serverů, může se jednat o relativně malé uložiště
+ve firmě nebo dokonce o osobní/domácí řešení. Pro využívaní osobních/firemních uložišť se lidé uchylují v případech, je-li třeba uložit osobní nebo
 určitým způsobem citlivá data, která by nemohla být poskytnuta třetí straně. Nabízená řešení také nemusí poskytovat potřebnou funkcionalitu nebo jejich finanční model
 nesplňuje zákazníkova kritéria.
 
-V průběhu let byly vyvinuty protokoly řešící sdílení souborů jako FTP, TFTP, SFTP, NFS a další. Sdílení souborů je komplexní záležitostí a obsahuje
+V průběhu let byly vyvinuty protokoly řešící sdílení souborů jako FTP, NFS a mnohé další. Sdílení souborů je komplexní záležitostí a obsahuje
 velké množství parametrů. Každý protokol se zaměřuje jen na určité parametry jako zabezpečení a spolehlivost přenosu, oprávnění pro jednotlivé
-uživatele a soubory, synchronizace modifikovaných souborů apod. V dnešní době je většina komerčně využívaných aplikací vystavěna na proprietárních protokolech nebo
-na protokolech umožňující obecnější použití. Jedním z obecně nejpoužívanějších aplikačních protokolů bude Hypertext Transfer Protokol neboli HTTP.
+uživatele a soubory, synchronizace modifikovaných souborů apod nebo pojme daný parametr odlišným způsobem. V dnešní době je většina komerčně využívaných
+aplikací vystavěna na proprietárních protokolech nebo na protokolech umožňující obecnější použití. Jedním z nejpoužívanějších aplikačních protokolů
+bude Hypertext Transfer Protokol neboli HTTP.
 
 Cílem této práce je prozkoumat aktuální nabídku a možnosti na poli vzdálených uložišť a navrhnout aplikaci pro řízený přístup ke vzdáleným dokumentům pro
 platformu \mbox{GNU/Linux}. Aplikace bude zaměřena na řízený životní cyklus souborů s vynucenými oprávněními pro jednotlivé soubory daná vzdáleným uložištěm.
@@ -20,18 +21,19 @@ Komunikace skrze HTTP protokol byla definovaná externím zadavatelem. Zdrojové
 
 \chapter{Motivace a existující řešení}
 
-Využívaní vzdálených uložišť roste, protože lidé využívají více zařízení a potřebují mezi nimi jednoduchou synchronizaci nebo na jednom souboru potřebuje spolupracovat
-více lidí. Dalším podnětem využívání vzdálených uložišť je generování většího množství dat, které jako lidé vytváříme. Postupně se digitalizují další systémy například 
-ve státní správě nebo dalších podnikatelských sektorech. 
+Popularita a využití vzdálených uložišť roste, protože lidé využívají více zařízení a potřebují mezi nimi jednoduchou synchronizaci nebo na jednom souboru
+potřebuje spolupracovat více lidí. Dalším podnětem využívání vzdálených uložišť je většího množství dat a potřeba tyto data efektivně sdílet a bezpečně uložit.
+Postupně se digitalizují další systémy například ve státní správě nebo dalších podnikatelských sektorech. 
 
-Na trhu je velké množství služeb zaměřujících se na různé klientské sektory s různými požadavky. Diverzita těchto služeb je až překvapivě velká. Většina se snaží
-o obecně použitelné ukládání/sdílení dat, pokud jsou požadavky na tuto službu specifické, tak možnost úpravy konfigurace těchto služeb nebývá velká. Poté nezbývá než vystavět
-obdobnou službu z existujících aplikací nebo vytvořit novou na existujících technologiích.\\
+Na trhu je velké množství služeb zaměřujících se na různé klientské potřeby. Diverzita nabídky je až překvapivě velká. Většina se zaměřuje na ukládání a sdílení
+dat ve svém ekosystému, které jsou určené pro široké použití. Pokud jsou požadavky specifické, tak možnost vlastní konfigurace není možná. Pro částečnou úpravu 
+nebo automatizaci procesů lze využít poskytované API, ve většině případu se jedná o variantu REST API. Poslední možností je vystavění obdobné služby z několika
+existujících aplikací nebo vytvoření nové.\\
 
 \noindent V kontextu této práce jsou požadavky následující: 
 
 \begin{itemize}
-    \item Dodržování oprávnění i na klientském systému
+    \item Dodržování oprávnění i na klientském systému
     \begin{itemize}
         \item read-only
         \item write-only
@@ -45,50 +47,67 @@ obdobnou službu z existujících aplikací nebo vytvořit novou na existující
     \end{itemize}
     \item Autentifikace
     \begin{itemize}
-        \item uživatelské jméno a klientský certifikát
-        \item uživatelské jméno a heslo
+        \item uživatelské jméno a klientský certifikát
+        \item uživatelské jméno a heslo
     \end{itemize}
 \end{itemize}
 
 \section{Současná řešení}
 
-Pro bližší analýzu bylo vybráno jen několik služeb a programů. Zkoumáno bylo několik parametrů, jako poskytovaná funkcionalita pro jednotlivce a firmy, cena,
-integrace s ostatními aplikacemi apod. Služby od Googlu a Microsoftu není možné pořídit jednotlivě, ale dodávají se v balíčcích obsahující další software
-nebo služby. Obecně nelze vybrat nejlepší vzdálené uložiště, ale je možné poukázat na rozdílné vlastnosti a koncový uživatel ať si vybere podle svých potřeb.
+Pro bližší analýzu byl vybrán vzorek služeb a programů obsahující velké ekosystémy služeb po open source aplikace. Zkoumáno bylo několik parametrů,
+jako poskytovaná funkcionalita pro jednotlivce a firmy, cena, integrace s ostatními systémy a aplikacemi apod. Obecně nelze jednoznačně určit nejlepší uložiště, 
+ale je možné poukázat na rozdílné vlastnosti a vyzdvihnout kladné. Koncový uživatel se následně může rozhodnout dle svých potřeb.
 
-\section{Google File Stream}
+\section{Google Drive}
 
-Jedná se o apliakci synchronizující data ze všech Google disků, ke kterým má daný uživatel přístup. Aplikaci je možné provozovat pouze na systémech
-Windows a Mac OS.\cite{GoogleFileStream} Google Disk poskytuje plně funkční webové rozhraní, ve kterém je možné dokumenty přímo upravovat bez nutnotsti stahování. 
-Problém nenastane ani v případě Microsoft Office dokumentů, což je stále velmi využívaný softwareový balík kancelářských programů.
+Pro synchronizaci obsahu z Google Drive na osobní počítač se využívá aplikace pojmenovaná Google File Stream. Je možné ji provozovat pouze na systémech
+Windows a Mac OS.\cite{GoogleFileStream} Pro Linuxové distribuce lze využít například neoficiální open source aplikaci 
+Google Drive OCamlFUSE\footnote{\url{https://github.com/astrada/google-drive-ocamlfuse}} využívající technologii
+FUSE, která bude popsána v následující kapitole. Google Disk poskytuje plně funkční webové rozhraní,
+ve kterém je možné dokumenty přímo upravovat bez nutnosti stahování. Problém nenastal ani v případě konkurenčních Microsoft Office dokumentů. 
 
-Google Workspace (dříve Google Suite) je možné pořídit v několika balíčcích. Například balíček Bussiness Standard nabízí 2 TB uložiště za 10,40 EUR. Balíček obashuje
-další služby jako firemní email a schůzky až o 150 účastnících na Google Meet.\cite{GoogleWorkspace}
+Google Workspace (dříve Google Suite) je možné pořídit v několika balíčcích. Například balíček Bussiness Standard nabízí 2 TB uložiště za 10,40 EUR měsíčně.
+Balíček obsahuje další služby jako firemní email a schůzky až o 150 účastnících na Google Meet.\cite{GoogleWorkspace}
 
-Každý uživatel má vlastní disk s omezenou kapacitou podle balíčku. Na disku lze vytvářet standartní složkovou hiearchii a je možné sdílet jednotlivé soubory nebo
-obsah složek s ostatními uživateli. Verze Enterprise umožňuje vytváření dalších disků, na které je možné přiřadit seznam uživatelů. Každý uživatel má nastavenou jednu 
-z 6 rolí, které vymezují jeho možnosti. K dispozici je API, která pokrývá veškeré možnosti webového rozhraní jako vytvoření souboru, sdílení apod.\cite{GoogleAPIReference}
+Každý uživatel má vlastní disk s omezenou kapacitou podle balíčku. Na disku lze vytvářet standartní složkovou hierarchii a je možné sdílet jednotlivé soubory nebo
+obsah složek s ostatními Google uživateli. Verze Enterprise umožňuje vytváření dalších disků, na které je možné přiřadit seznam uživatelů. Každý uživatel
+má nastavenou jednu z 6 rolí, které vymezují jeho možnosti. K dispozici je API, která pokrývá veškeré možnosti webového rozhraní jako vytvoření souboru,
+sdílení atd.\cite{GoogleAPIReference}
 
 \section{Dropbox}
 
-Aplikace Dropbox má balíčky pro Ubuntu a Fedoru, případně jejich deriváty a také je možnost zkompilovat ji ze zdrojových souborů. 
-Z práce "Personal Cloud Storage Benchmarks and Comparison" je vidět, že Dropbox se zaměřuje na efektivitu přenosu a minimální zatížení sítě.
-Využívá manší množství TCP spojení oproti jeho konkurentům a také satejně jako Google Drive komprimuje data před odesláním.\cite{CloudStorageComparison}
+Dropbox má oficiální balíčky své aplikace pro Ubuntu a Fedoru, případně je možné si aplikaci zkompilovat ze zdrojových souborů. Podpora Windows a Mac OS je samozřejmostí.
+Z práce „Personal Cloud Storage Benchmarks and Comparison“ lze vyčíst, že Dropbox se zaměřuje na efektivitu přenosu a minimální zatížení sítě.
+Využívá menší množství TCP spojení oproti jeho konkurentům a také stejně jako Google Drive komprimuje data před odesláním.\cite{CloudStorageComparison}
 Toto řešení nemusí dosahovat nejvyšší výkonosti, ale nezatěžuje tolik infrastrukturu. 
 
-Webové rozhraní je více orientováno na správu souborů a jejich historii. Nabízí jednoduché obnovení smazaných souborů nebo návrat k předchozí verzi.
+Webové rozhraní je více orientováno na správu souborů a jejich historii. Nabízí jednoduché obnovení smazaných souborů nebo návrat k předchozí verzi.
 Nenabízí tolik možností jako Google Drive, ale upravovat dokumenty ve webovém prohlížeči lze také. Na výběr je mezi Microsoft Office Online nebo Google Worksapce.
-Sdílení souborů a složek je možné i s uživateli, kteří nemají Dropbox účet.
+Sdílení souborů a složek je možné i s uživateli, kteří nemají Dropbox účet.
 
-Balíček Plus za 9,99 EUR dává uživateli přístup ke 2 TB uloložišti. Firemní balíčky obsahují rozšíření pro lepší správu uživatelů, vytváření skupin a admin panel/konzole.
-Dropbox má také pro své uživatele API.\cite{Dropbox}
+Balíček Plus za 9,99 EUR měsíčně dává uživateli přístup ke 2 TB uložišti. Firemní balíčky obsahují rozšíření pro lepší správu uživatelů, vytváření skupin
+a admin panel/konzole. Dropbox má také API nabízející dostatečnou funkcionalitu pro případnou integraci s jinými systémy apod.\cite{Dropbox}
 
-\section{Microsoft OneDrive}
+\section{pCloud}
 
-\cite{Microsoft365}
+Poskytovatel pCloud podporuje nejpoužívanější platformy, a to včetně mobilních. Za 9,99 EUR měsíčně dostane uživatel 2 TB uložiště. Jako jediný z poskytovatelů
+v analýze nabízí balíček s jednorázovou platbou za cenu 350 EUR. Jedná se o identický balíček, pouze forma platby se liší. Všechna data jsou přenášena přes
+šifrovaný kanál a všechny kopie souborů na pěti různých serverech jsou šifrovaná 256bitovým AES klíčem.\cite{pCloud}
+
+Webové rozhraní je jednoduché, avšak oproti konkurentům má méně funkcí. Lze zobrazit náhled dokumentů, ale upravovat je nelze. Každý soubor má tzv. revize 
+a je možné obnovit obsah souboru na vybranou revizi. Revize jsou uchovány po dobu jednoho roku. Soubory je možné sdílet i s uživateli, kteří nemají účet u pCloudu. 
+
+Pro firemní zákazníky je nabízený rozšířený management uživatelů a monitoring s logy aktivity jednotlivých uživatelů.
 
 \section{Syncthing}
-\section{Rsync}
+
+Open source aplikace Syncthing synchronizuje soubory peer-to-peer. Nejedná se o čistou peer-to-peer architekturu, protože jeden z uzlů může být
+nastaven jako server a veškeré data budou synchronizována vůči tomuto uzlu. Syncthing je možné provozovat na většině dnešních systémů jako Windows, Linux, BSD a
+Mac OS.\cite{Syncthing}
+
+Aplikace poskytuje webové rozhraní, které je určené pouze pro nastavení parametrů jako discovery protokol pro objevování ostatních uzlů, jaké složky mají být synchronizovány
+nebo kolik verzí jednotlivých souborů má být uchováváno a mnoho dalšího. Velká přizpůsobivost umožňuje upravit fungování aplikace vlastním potřebám, na druhou
+stranu bude náročné udržovat systém s větším množstvím uživatelů vystavěný na této aplikaci. Jedná se tedy spíše o domácí řešení.
 
 \chapter{Návrh řešení a použité technologie}
 
