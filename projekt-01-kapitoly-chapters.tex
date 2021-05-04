@@ -63,7 +63,7 @@ ale je možné poukázat na rozdílné vlastnosti a vyzdvihnout kladné. Koncov
 Pro synchronizaci obsahu z Google Drive na osobní počítač se využívá aplikace pojmenovaná Google File Stream. Je možné ji provozovat pouze na systémech
 Windows a Mac OS.\cite{GoogleFileStream} Pro Linuxové distribuce lze využít například neoficiální open source aplikaci 
 Google Drive OCamlFUSE\footnote{\url{https://github.com/astrada/google-drive-ocamlfuse}} využívající technologii
-FUSE, která bude popsána v následující kapitole. Google Disk poskytuje plně funkční webové rozhraní,
+FUSE, která bude popsána v následující kapitole \ref{sec:fuse}. Google Disk poskytuje plně funkční webové rozhraní,
 ve kterém je možné dokumenty přímo upravovat bez nutnosti stahování. Problém nenastal ani v případě konkurenčních Microsoft Office dokumentů. 
 
 Google Workspace (dříve Google Suite) je možné pořídit v několika balíčcích. Například balíček Bussiness Standard nabízí 2 TB uložiště za 10,40 EUR měsíčně.
@@ -109,10 +109,104 @@ Aplikace poskytuje webové rozhraní, které je určené pouze pro nastavení pa
 nebo kolik verzí jednotlivých souborů má být uchováváno a mnoho dalšího. Velká přizpůsobivost umožňuje upravit fungování aplikace vlastním potřebám, na druhou
 stranu bude náročné udržovat systém s větším množstvím uživatelů vystavěný na této aplikaci. Jedná se tedy spíše o domácí řešení.
 
+\section{Shrnutí}
+
+Trendy na poli vzdálených uložišť určují velké firmy jako Google nebo Micorsoft. Apliakce One Drive od Microsoftu nebyla blíže analyzovaná, protože se jedná
+o službu pouze pro platformu Windows. Důkazem tohoto jevu je například integrace aplikací obou těchto firem do webového rozhraní Dropboxu.
+
+Všichny služby mají webové rozhraní, ke kterému je aplikace synchronizující obsah uložiště občas braná jako doplňek. Sdílení nebo obnova předchozí verze souboru
+je vždy možná ve webové aplikaci, ale ne vdžy jsou tyto akce dostupné v desktopové aplikaci.
+
+Aplikace na jejíž základě je vytvořená tato práce nebude klasickou synchronizační apliakcí. Bude se pracovat jen s jednotlivými soubory, na kterých bude uživatel chtít
+pracovat (zobrazit nebo upravit obsah). Nebude možné synchronizovat celé uložiště, ale vždy jen jeden specifický soubor. Jedná se tedy spíše o náhradu možnosti upravovat
+soubor přímo ve webovém prohlížeči jako to umožňuje například Google Drive.
+
 \chapter{Návrh řešení a použité technologie}
 
+Prvním krokem navrhovací fáze bylo seznámení se zadáním a požadavky. Externí zadavatel dodal podrobnou dokumentaci REST API pro validované datové uložiště, která
+byla stěžejním dokumentem při návrhu. API obsahuje funkce pro ověření spojení, autentifikaci a práci se soubory. VDU nebylo při vzniku této práce k dispozic a proto
+byl pro potřeby vývoje vytvořen mock server na základě API dokumentace.
+
+Pro vynucení práv jednotlivých souboru je standartní souborový systém nevyhovující, protože po stažení souboru do počítače uživatele se ztrácí veškerá kontrola nad
+tímto souborem. Po konzultaci s vedoucím práce, dokterem Markem Rychlým, byla zvolena technologie FUSE neboli Filesystem in userspace. FUSE umožňuje vytvořit virtuální
+souborový systém a implementovat jednotlivé operace jako čtení, zápis atd.
+
+\section{Případy užití}
+
+Diagram případu užití zachycuje celý systém jako celek sestavený z jednotlivách funkcí a jejich návazností, které je třeba dále analyzovat a specifikovat v dalších
+fázích návrhu.
+
+\begin{figure*}[h]
+    \centering    
+    \includegraphics[width=1\linewidth]{other-fig/use_case_diagram.png}
+    \caption{Diagram případu užití}
+    \label{fig:use_case}
+\end{figure*}
+
+Na diagramu \ref{fig:use_case} vystupují tři aktéři a to uživatel, FUSE agent/démon a VDU. Implementace VDU není obsahem této práce, proto je oddělena červenou
+přerušovanou čarou. V diagramu není zanesená například autentifikace, na které závisí veškerá Komunikace s VDU. Diagram by byl poté nepřehledný, proto byla tato
+část vypuštěna.
+
+Všechny akce jsou spouštěny přímo uživatelem, některé vyvolají spuštění funkce FUSE démona. Jedná se například o uložení, otevření nebo přejmenování souboru ve virtuálním
+souborovém systému. Speciální případ nastávám při otevření url s vlastním protokolem, který má spustit aplikaci, jež je k danému protokolu v systému přiřazena.
+Na tuto URL bude uživatel přesměrován z webového rozhraní VDU. Příkladem protokolu spouštějící aplikaci v systému může být \texttt{mailto}, využívaný často u webových aplikací.
+Přesměrování na adresu s tímto protokolem otevře správce elektronické pošty. 
+
+K námi definovanému protokolu pojmenovaném „\texttt{vdu}“ je třeba mít v systému přiřazenou aplikaci. Na základě přístupového tokenu uloženého v URL 
+(\texttt{vdu://<přístupový token>}) se spustí daná aplikace, která stáhne žádaný soubor z VDU na virtuální souborový systém. Na základě této znalosti byly
+uskutečněné zásadní rozhodnutí při návrhu architektury.
+ 
 \section{Architektura}
-\subsection{Případ užití}
+
+Zvažovány byly dvě implementační varianty, jedna verze pracoval pouze s jednou aplikací a to byl FUSE démon. Druhá vraianta rozdělila funkčnost do dvou aplikací, jednou 
+z nichž byl FUSE démon a druhou byla klasická apliakce napsaná například v C++. V tomoto případě by samostatná aplikace obsluhovala komunikaci s VDU a byla by spouštěna
+na základě volání FUSE démona nebo uživatele.
+
+První variantu by šlo zpracovat dvěma podobnými způsoby vedoucí ke stejnému řešení. FUSE démon je napsaný v jazyce C, takže první zvažovaná varianta byla implementace
+celá apliakce jednom jazyce. Druhou možností by bylo vytvoření C++ knihovny, která by měla interface pro jazyk C, aby mohl vytvořenou knihovnu využít FUSE démon. Nejedná se
+však o nijak kriticky náročnou aplikaci na výkon, takže by byla varianta s C++ knihovnou upřednostňována.
+
+Se znalostí z diagramu případu užití, že je třeba mít registrovanou apliakci, která bude spuštěna po otevření speciální URL. I kdybychom vzali v úvahu místo URL soubor
+se speciální koncovkou (např. *.vdu) obsahující přístupový token, který by si uživatel stáhnul z VDU, tak k otevření tohoto souboru je třeba mít také přiřazenou aplikaci, která
+by danou akci obsloužila. Démon běžící na pozadí po celou dobu běhu systému, nemůže být přiřazen jako obsluhující aplikace otevření speciální URL. Na základě těchto okolností
+byla vybrána varianta se dvěma aplikacemi.
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=0.47\linewidth]{other-fig/architecture.png}
+    \caption{Architektura}
+\end{figure*}
+
+Pokud FUSE démon má vykonat akci, pro kterou nemá dostatečné informace, spustí jako další subproces druhou hlavní aplikaci a počká na návratovou hodnotu, na základě
+které se rozhodne, jakým způsobem onu akci dokončí. Může se jednat o případy jako jestli je soubor určený jen pro četní nebo i zápis, nebo jestli daný soubor už není
+validní, protože vypršel datum expirace apod.
+
+V této variantě je FUSE démon velmi minimalistický a zybtek funkcionality je implementován do druhé aplikace, která je spouštěna jen na vyžádání, narozdíl od neustále
+běžícího démona. Démon tedy po celou dobu běhu zabírá méně místa, protože nemusí mít načtená v paměti všechny potřebné knihovny. Na druhou stranu potřené knihovny mohou 
+být v paměti namapované, protože jsou využíváné jinými aplikacemi. Démon musí být spuštěný s právy superuživatele \texttt{root} a menší množství kódu spuštěného s vysokými
+oprávněními implikuje menší náchylnost na bezpečnostní chyby. Démon bude totiž pouštět druhou aplikaci s oprávněními přihlášeného uživatele.
+
+\subsection{Diagram tříd}
+
+Aby implementace byla co nejjednodušší a nebylo třeba již uvažovat nad dalšími rozhodnutími, byl vytvořen diagram tříd \ref{fig:class_diagram_design}, který relativně
+podrobně vizualizuje jaké třídy s atributy a metodami je třebe implementovat. Jedná se pouze o návrh, který se v průběhu vývoje bude dynamicky měnit. Pokud je návrh
+kvalitní a programátoři se ho sanží dodržet, neměl by být výsledek zásadně rozdílný.
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=1\linewidth]{other-fig/class_diagram_design.png}
+    \caption{Diagram tříd - návrh}
+    \label{fig:class_diagram_design}
+\end{figure*}
+
+Na obrázku \ref{fig:class_diagram_implementation} je možné vidět diagram tříd naimplementovaného programu. Na první pohled vypadá velmi rozdílně, po bližším prozkoumáním
+lze vidět jednu novou třídu oproti návrhu. Jedná se třídu zobrazující notifikace pro uživatele, takže nemá vliv na hlavní funkcionalitu.
+
+\begin{figure}
+    \includegraphics[width=1\linewidth]{other-fig/class_diagram_after_implementation.png}
+    \caption{Diagram tříd - implementace}
+    \label{fig:class_diagram_implementation}
+\end{figure}
 
 \section{Technologie}
 \subsection{GNU/Linux}
@@ -128,6 +222,7 @@ stranu bude náročné udržovat systém s větším množstvím uživatelů vy
 \cite{MockServer}
 
 \subsection{Souborový systém v uživatelském prostoru (FUSE)}
+\label{sec:fuse}
 
 \cite{FuseOrNotToFuse}
 \cite{HardeningFUSE}
