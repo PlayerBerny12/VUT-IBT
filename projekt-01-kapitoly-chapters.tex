@@ -31,7 +31,7 @@ dat ve svém ekosystému, které jsou určené pro široké použití. Pokud jso
 nebo automatizaci procesů lze využít poskytované API, ve většině případu se jedná o variantu REST API. Poslední možností je vystavění obdobné služby z několika
 existujících aplikací nebo vytvoření nové.\\
 
-\noindent V kontextu této práce jsou požadavky následující: 
+\noindent v kontextu této práce jsou požadavky následující: 
 
 \begin{itemize}
     \item Dodržování oprávnění i na klientském systému
@@ -72,7 +72,7 @@ Balíček obsahuje další služby jako firemní email a schůzky až o 150 ú
 
 Každý uživatel má vlastní disk s omezenou kapacitou podle balíčku. Na disku lze vytvářet standartní složkovou hierarchii a je možné sdílet jednotlivé soubory nebo
 obsah složek s ostatními Google uživateli. Verze Enterprise umožňuje vytváření dalších disků, na které je možné přiřadit seznam uživatelů. Každý uživatel
-má nastavenou jednu z 6 rolí, které vymezují jeho možnosti. K dispozici je API, která pokrývá veškeré možnosti webového rozhraní jako vytvoření souboru,
+má nastavenou jednu z 6 rolí, které vymezují jeho možnosti. k dispozici je API, která pokrývá veškeré možnosti webového rozhraní jako vytvoření souboru,
 sdílení atd.\cite{GoogleAPIReference}
 
 \section{Dropbox}
@@ -113,39 +113,39 @@ stranu bude náročné udržovat systém s větším množstvím uživatelů vy
 \section{Shrnutí}
 
 Trendy na poli vzdálených uložišť určují velké firmy jako Google nebo Micorsoft. Důkazem tohoto jevu je například integrace aplikací obou těchto firem do webového
-rozhraní Dropboxu. Aplikace One Drive od Microsoftu nebyla blíže analyzovaná, protože se jedná o službu pouze pro platformu Windows. 
+rozhraní Dropboxu. Aplikace One Drive od Microsoftu nebyla blíže analyzovaná, protože se jedná o službu pouze pro platformu Windows. 
 
-Všechny služby mají webové rozhraní, ke kterému je aplikace synchronizující obsah uložiště občas braná jako doplňek. Sdílení nebo obnova předchozí verze souboru
-je vždy možná ve webové aplikaci, ale ne vdžy jsou tyto akce dostupné i na desktopové verzi.
+Všechny služby mají webové rozhraní, ke kterému je aplikace synchronizující obsah uložiště občas brána jako doplněk. Sdílení nebo obnova předchozí verze souboru
+je vždy možná ve webové aplikaci, ale ne vždy jsou tyto akce dostupné i na desktopové verzi.
 
-Aplikace na jejíž základě je vytvořená tato práce nebude synchronizovat celé uložiště, ale bude pracovat jen s jednotlivými soubory. Uživateli na vyžádání stáhne 
-právě jeden soubor, se kterým bude chtít uživatel v danou dobu pracovat (zobrazit nebo upravit obsah). Synchromizace celého uložiště nebo obasahu jedné složky nebude možná.
-Jedná se spíše o náhradu možnosti zobrazovat a upravovat soubor přímo ve webovém prohlížeči jako to umožňuje například Google Drive.
+Aplikace na jejíž základě je vytvořená tato práce nebude synchronizovat celé uložiště, ale bude pracovat jen s jednotlivými soubory. Uživateli na vyžádání stáhne 
+právě jeden soubor, se kterým bude chtít uživatel v danou dobu pracovat (zobrazit nebo upravit obsah). Synchronizace celého uložiště nebo obsahu jedné složky nebude možná.
+Jedná se spíše o náhradu možnosti zobrazovat a upravovat soubor přímo ve webovém prohlížeči jako to umožňuje například Google Drive.
 
 % ---------------------------------------------------------------------------------------------------------------------------------------
 \chapter{Návrh řešení a použité technologie}
 
-Prvním krokem navrhovací fáze bylo seznámení se zadáním a požadavky. Externí zadavatel dodal podrobnou dokumentaci REST API pro validované datové uložiště, která
-byla stěžejním dokumentem při návrhu. Jednalo se formální textový popis, který nebyl v žádném standardizovaném formát. API obsahuje funkce pro ověření spojení,
-autentifikaci a práci se soubory. VDU nebylo při vzniku této práce k dispozic a proto byl pro potřeby vývoje vytvořen mock server na základě přepisu poskytnuté
+Prvním krokem navrhovací fáze bylo seznámení se zadáním a požadavky. Externí zadavatel dodal podrobnou dokumentaci REST API pro validované datové uložiště, která
+byla stěžejním dokumentem při návrhu. Jednalo se formální textový popis, který nebyl v žádném standardizovaném formát. API obsahuje funkce pro ověření spojení,
+autentifikaci a práci se soubory. VDU nebylo při vzniku této práce k dispozic, proto byl pro potřeby vývoje vytvořen Mock Server na základě přepisu poskytnuté
 dokumentace do standardizovaného formátu OpenAPI.
 
 Pro vynucení práv jednotlivých souborů je standartní souborový systém nevyhovující, protože po stažení souboru do počítače uživatele ztrácí VDU kontrolu nad tímto
-souborem. Po konzultaci s vedoucím práce, dokterem Markem Rychlým, byla zvolena technologie FUSE neboli Filesystem in userspace. FUSE umožňuje vytvořit virtuální
-souborový systém a implementovat jednotlivé operace jako čtení, zápis atd. Tím je možné dosáhnout dostatečnou kontrolu nad oprávněními a obecně životním cyklem souboru
-v uživatelově počítači. Znalý uživatel by byl schopen tento systém obejít a přistoupit k souborům z hostovaného souborového systému. K takové operaci jsou potřeba 
+souborem. Po konzultaci s vedoucím práce, doktorem Markem Rychlým, byla zvolena technologie FUSE neboli Filesystem in userspace. FUSE umožňuje vytvořit virtuální
+souborový systém a implementovat jednotlivé operace jako čtení, zápis atd. Tím je možné dosáhnout dostatečnou kontrolu nad oprávněními a obecně životním cyklem souboru
+v uživatelově počítači. Znalý uživatel by byl schopen tento systém obejít a přistoupit k souborům z hostovaného souborového systému. k takové operaci jsou však potřeba 
 oprávnění superuživatele \texttt{root}.
 
 \section{Případy užití}
 
-Ze zadání bylo možné přímo vytvořit diagram případu užití, pouze jedna věc nebyla specifikovaná. Webová aplikace musí předat desktopové přístupový token, 
-pomocí kterého lze udělat potřebné API volání na VDU. V úvahu přišlo stažení „fake“ souboru obsahující pouze přístupový token. Druhou možností bylo
-přesměrování na speciální URL z VDU. Prohlížeč by na základě přesměrování rozpoznal, že má otevřít určenou aplikaci a předat ji token jako jeden z
-parametrů volání. Varainta se speciální URL působí na uživatele mnohem ucelenějším dojmem a nevytváří na souorovém systém dále nepotřebné soubory.
+Na základě požadavků bylo možné přímo vytvořit diagram případu užití. Pouze jedna věc nebyla konkrétně specifikovaná. Webová aplikace musí předat té desktopové 
+přístupový token, pomocí kterého lze volat potřebné API metody VDU. v úvahu přišlo stažení „fake“ souboru obsahující pouze přístupový token. Druhou možností bylo
+přesměrování na speciální URL z VDU. Prohlížeč by na základě přesměrování rozpoznal, že má otevřít určenou aplikaci a předat ji token jako jeden z
+parametrů volání. Varianta se speciální URL působí na uživatele mnohem ucelenějším dojmem a nevytváří na souborovém systém dále nepotřebné soubory.
 
-Diagram případu užití zachycuje celý systém jako celek a zobrazuje jednotlivé funkce a jejich návaznosti, které je třeba dále analyzovat a specifikovat v dalších
-fázích návrhu. V diagramu \ref{fig:use_case} vystupují tři aktéři a to uživatel, FUSE agent/démon a VDU. Implementace VDU není obsahem této práce, proto je oddělena červenou
-přerušovanou čarou. V diagramu není zanesená například autentifikace, na které závisí veškerá komunikace s VDU. Pro přehlednost byla tato část vypuštěna.
+Diagram případů užití zachycuje celý systém jako celek a zobrazuje jednotlivé funkce a jejich návaznosti, které je třeba dále analyzovat a specifikovat v dalších
+fázích návrhu. v diagramu \ref{fig:use_case} vystupují tři aktéři a to uživatel, FUSE agent/démon a VDU. Implementace VDU není obsahem této práce, proto je oddělena červenou
+přerušovanou čarou. v diagramu není zanesená například autentifikace, na které závisí veškerá komunikace s VDU. Pro přehlednost byla tato část vypuštěna.
 
 \begin{figure*}[h]
     \centering    
@@ -155,54 +155,55 @@ přerušovanou čarou. V diagramu není zanesená například autentifikace, na 
 \end{figure*}
 
 
-Všechny akce jsou spuštěny uživatelem a většina z nich vyvolá reakci FUSE démona. Jedná se například o uložení, otevření nebo přejmenování souboru ve virtuálním souborovém
-systému. Speciální případ nastává při otevření URL s vlastním protokolem, který má zavolat aplikaci, jež je k danému protokolu v systému přiřazena. Příkladem takového
-protokolu může být \texttt{mailto}, využívaný často u webových stránek. Přesměrování na adresu s tímto protokolem otevře správce elektronické pošty. 
+Všechny akce jsou spuštěny uživatelem a většina z nich vyvolá reakci FUSE démona. Jedná se například o uložení, otevření nebo přejmenování souboru ve virtuálním souborovém
+systému. Speciální případ nastává při otevření URL s vlastním protokolem, který má zavolat aplikaci, jež je k danému protokolu v systému přiřazena. Příkladem takového
+protokolu může být \texttt{mailto}, využívaný často u webových stránek. Přesměrování na adresu s tímto protokolem otevře správce elektronické pošty. 
 
-K námi definovanému protokolu pojmenovaném \texttt{vdu} je třeba mít v systému přiřazenou aplikaci, která s přístupovým tokenem uloženým v URL 
-(\texttt{vdu://<přístupový token>}) stáhne žádaný soubor z VDU na virtuální souborový systém. Na základě této znalosti byly uskutečněny rozhodnutí při návrhu architektury.
+K námi definovanému protokolu pojmenovaném \texttt{vdu} je třeba mít v systému přiřazenou aplikaci, která pomocí přístupového tokenu uloženého v URL 
+(\texttt{vdu://<přístupový token>}) stáhne žádaný soubor z VDU na virtuální souborový systém. Na základě této znalosti byly uskutečněny rozhodnutí při návrhu architektury.
  
 \section{Definice REST API}
 
-API obsahuje sedm metod pro ověření dostupnosti, autentifikaci a práci se se soubory. Každá funkce má sadu možných návratových hodnot indikující jestli dané volání
-bylo úspešné nebo proč dané volání selhalo.
+API obsahuje sedm metod pro ověření dostupnosti, autentifikaci a práci se soubory. Každá funkce má sadu možných návratových hodnot, která je podmnožinou návratových hodnot
+definovaných protokolem HTTP. Podle tohoto kódu lze rozpoznat, za bylo dané volaní úspěšné, případně jaká chyba při volání nastala. Kódy z rozsahu 200 až 299 označují
+úspěšná volání a kódy 400 až 599 indikují chybu na straně klienta nebo serveru.
+
+Standardizace definice REST API byla vytvořena v OpenAPI standardu, pro který je dostupných mnoho nástrojů. Jedním z nich je open source nástroj Swagger, pomocí kterého
+můžete generovat html dokumentaci. Vygenerované rozhraní umožňuje i jednoduchou formu testování API. Pomocí standardizované definice bylo také možné rychle vytvořit 
+Mock Server ve webové aplikaci Postman.
 
 \begin{itemize}
-    \item /ping - 
+    \item /ping
     \begin{itemize}
-        \item GET /ping - pro ověření dostupnosti VDU        
+        \item GET /ping — pro ověření dostupnosti VDU        
     \end{itemize}
     \item /auth
     \begin{itemize}
-        \item GET /auth/key - obnova autentifikačního tokenu
-        \item POST /auth/key - získání autentifikačního tokenu
-        \item DELETE /auth/key - zneplatnění autentifikačního tokenu
+        \item GET /auth/key — obnova autentifikačního tokenu
+        \item POST /auth/key — získání autentifikačního tokenu
+        \item DELETE /auth/key — zneplatnění autentifikačního tokenu
     \end{itemize}
     \item /file
     \begin{itemize}
-        \item GET /file/<file-access-token> - stažení obsahu souboru
-        \item POST /file/<file-access-token> - nahrání obsahu souboru
-        \item DELETE /file/<file-access-token> - zneplatnění přístupového tokenu
+        \item GET /file/<file-access-token> — stažení obsahu souboru
+        \item POST /file/<file-access-token> — nahrání obsahu souboru
+        \item DELETE /file/<file-access-token> — zneplatnění přístupového tokenu
     \end{itemize}
 \end{itemize}
 
-Standardizace definice REST API byla vytvořena v OpenAPI standardu, pro který je dostupných mnoho nástrojů. Jedním z nich je open source nástroj Swagger, pomocí kterého
-můžete generovat html dokumentaci. Vygenerované rozhraní umožňuje i jednoduchou formu testování API. Pomocí standartdizované definice bylo také možné rychle vytvořit 
-mock server ve webové aplikaci Postman.
-
 \section{Architektura}
 
-Zvažovány byly dvě implementační varianty, jedna verze pracoval pouze s FUSE démonem a druhá rozdělila funkčnost do samostatné aplikace a FUSE démona. První variantu by
-bylo možné zpracovat dvěma obdobnými způsoby vedoucí ke stejnému řešení. FUSE démon je napsaný v jazyce C, takže jedno z nabízejících se řešení by byla implementace
-celé aplikace jednom jazyce. Druhým řešením by bylo vytvoření C++ knihovny, která by měla interface pro jazyk C. Tudíž by vytvořená knihovna mohla být konzumována FUSE démonem.
-Nejedná se však o nijak kriticky náročnou aplikaci na výkon, takže by varianta s C++ knihovnou byla upřednostňovaná, protože standartní knihovna jazyka C++ a jeho konstrukce 
+Zvažovány byly dvě implementační varianty, jedna verze pracoval pouze s FUSE démonem a druhá rozdělila funkčnost do samostatné aplikace a FUSE démona. První variantu by
+bylo možné zpracovat dvěma obdobnými způsoby, jež by vedli ke obdobnému řešení. FUSE démon je napsaný v jazyce C, takže jedno z nabízejících se řešení by byla implementace
+celé aplikace jednom jazyce. Druhým řešením by bylo vytvoření C++ knihovny, která by měla interface pro jazyk C. Takto vytvořená knihovna by mohla být konzumována FUSE démonem.
+Nejedná se však o nijak kriticky náročnou aplikaci na výkon, takže by varianta s C++ knihovnou byla upřednostňovaná, protože standartní knihovna jazyka C++ a jeho konstrukce 
 umožňují jednodušší vývoj.
 
-Rozdělení na dvě samostatné aplikace z nichž jedna je FUSE démon by mohlo přinést problémy v udržitelnosti takového systému. Pokud by jedna z aplikací nefungovala, celý systém
-by nemohl pracovat korektně. Hlavní aplikace by obsluhovala komunikaci s VDU a byla by vždy spuštěna voláním z FUSE démona nebo nepřímo uživatelem. Se znalostí 
-získanou při návrhu diagramu případů užití víme, že je třeba mít registrovanou aplikaci obsluhující otevření speciální URL. I kdybychom vzali místo URL soubor se speciální
+Rozdělení na dvě samostatné aplikace, z nichž jedna je FUSE démon by mohlo přinést problémy v udržitelnosti takového systému. Pokud by jedna z aplikací nefungovala, celý systém
+by nemohl pracovat korektně. Hlavní aplikace by obsluhovala komunikaci s VDU a byla by vždy spuštěna voláním z FUSE démona nebo nepřímo uživatelem. Se znalostí 
+získanou při návrhu diagramu případů užití víme, že je třeba mít registrovanou aplikaci obsluhující otevření speciální URL. i kdybychom vzali místo URL soubor se speciální
 koncovkou (např. *.vdu) obsahující přístupový token je stále třeba mít přiřazenou aplikaci pro obsluhu tentokrát otvírání souboru. Démon běžící na pozadí po celou dobu běhu
-systému nemůže být přiřazen jako aplikace obsluhující takové události. Na základě těchto okolností byla vybrána varianta se dvěma oddělenýmí aplikacemi.
+systému nemůže být přiřazen jako aplikace obsluhující takové události. Na základě těchto okolností byla vybrána varianta se dvěma oddělenými aplikacemi k dalšímu zpracování.
 
 \begin{figure*}[h]
     \centering
@@ -210,20 +211,21 @@ systému nemůže být přiřazen jako aplikace obsluhující takové události.
     \caption{Architektura}
 \end{figure*}
 
-Pokud FUSE démon má vykonat akci, pro kterou nemá dostatečné informace, spustí jako další subproces druhou hlavní aplikaci a počká na návratovou hodnotu, na základě
-které se rozhodne, jakým způsobem onu akci dokončí. Může se jednat o situace jako: je soubor určený jen pro četní nebo i zápis, je daný soubor stále validní
+Pokud FUSE démon má vykonat akci, pro kterou nemá dostatečné informace, spustí jako další subproces druhou hlavní aplikaci a počká na návratovou hodnotu, na základě
+které se rozhodne, jakým způsobem onu akci dokončí. Může se jednat o situace jako: je soubor určený jen pro četní nebo i zápis, je daný soubor stále validní
 validní (nevypršel datum expirace) apod.
 
-V této variantě je FUSE démon velmi minimalistický a zybtek funkcionality je implementován v druhé aplikaci, která běží jen pokud je k tomu vyzvaná, narozdíl od neustále
-běžícího démona. Démon tedy po celou dobu běhu zabírá méně místa, protože nemusí mít načtené v paměti všechny potřebné knihovny. Tyto knihovny mohou být v paměti i tak
-namapované, protože je mohou využívat jiné aplikace. Démon musí být spuštěný s oprávněními superuživatele \texttt{root} a menší množství kódu běžícího s vysokými
-oprávněními implikuje menší náchylnost na bezpečnostní chyby. Hlavní aplikace může běžet jen s právy přihlášeného uživatele.
+V této variantě je FUSE démon velmi minimalistický a zbytek funkcionality je implementován v druhé aplikaci, která běží jen pokud je k tomu vyzvaná, narozdíl od neustále
+běžícího démona. Démon tedy po celou dobu běhu zabírá méně místa, protože nemusí mít načtené v paměti všechny potřebné knihovny. Tyto knihovny mohou být v paměti i tak
+namapované, protože je mohou využívat jiné aplikace. Démon musí být spuštěný s oprávněními superuživatele \texttt{root} a menší množství kódu běžícího s vysokými
+oprávněními implikuje menší náchylnost na bezpečnostní chyby. Hlavní aplikace může běžet jen s právy přihlášeného uživatele, což je jedna z dalších výhod oproti 
+druhé zvažované variantě.
 
 \subsection{Diagram tříd}
 
-Aby implementace probíhala s možná nejmenším množstvím komplikací a nebylo třeba již uvažovat nad dalšími rozhodnutími, byl vytvořen diagram tříd \ref{fig:class_diagram_design},
-který se pokouší podrobně vizualizovat třídy s atributy a metodami, jež je třebe implementovat. Jedná se pouze o návrh, který se v průběhu vývoje bude měnit, ale pokud je návrh
-kvalitní a programátoři se jej sanží dodržet, neměl by být výsledek zásadně rozdílný.
+Aby implementace probíhala s možná nejmenším množstvím komplikací a nebylo třeba již uvažovat nad dalšími rozhodnutími, byl vytvořen diagram tříd \ref{fig:class_diagram_design},
+který se pokouší podrobně vizualizovat třídy s atributy a metodami, jež je třeba implementovat. Jedná se pouze o návrh, který se v průběhu vývoje bude měnit, ale pokud je návrh
+kvalitní a vývojáři se jej snaží dodržet, neměl by být výsledek zásadně rozdílný.
 
 \begin{figure*}[h]
     \centering
@@ -233,8 +235,8 @@ kvalitní a programátoři se jej sanží dodržet, neměl by být výsledek zá
 \end{figure*}
 
 Na obrázku \ref{fig:class_diagram_implementation} je možné vidět diagram tříd naimplementovaného programu. Na první pohled vypadá velmi rozdílně, po bližším prozkoumáním
-lze vidět jednu novou třídu oproti návrhu. Jedná se o třídu zobrazující notifikace pro uživatele, která nemá vliv na hlavní funkcionalitu. Dále přibylo několik podpůrných
-funkcí a také přibili některé atributy, případně se přejmenovali. Při implementaci nenastaly žádné zásadní potíže způsobené chybným nebo nepřesným návrhem, tudíž lze
+lze vidět jednu novou třídu oproti návrhu. Jedná se o třídu zobrazující notifikace pro uživatele, která nemá vliv na hlavní funkcionalitu. Dále přibylo několik podpůrných
+funkcí a také přibily některé atributy, případně se přejmenovali. Při implementaci nenastaly žádné zásadní potíže způsobené chybným nebo nepřesným návrhem, tudíž lze
 návrh označit za úspěšný.
 
 \newpage
@@ -248,56 +250,71 @@ návrh označit za úspěšný.
 \section{Technologie}
 
 V této sekci budou popsány jednotlivé technologie, které ovlivnili tuto práci. Pro samotný návrh stačí elementární znalosti daných technologií, ale pro
-implementaci a jejich správné využití je třeba jejich bližší pochopení.
+implementaci a jejich správné využití je třeba jejich bližší pochopení.
 
 \subsection{GNU/Linux}
 
-GNU je rekurzivní zkratka pro „GNU's Not Unix!“. Jedná se o projekt, který měl za cíl vystavět nový operační systém kompatipilní s Unixem. Všechen kód vytvořený pod
-tímto projektem je tzv. free software (svobodný software). Jedná se o filosofii vývoje software jejíž parafrázovaná definice je následující. Svobodný (free) software se
-vztahuje ke svobodě, ne k ceně. Slovo svobodný (free) by mělo být bráno ve významu svobodný projev (free speech) nikoliv pivo zdarma (free beer) \cite{FreeSoftware}.
+GNU je rekurzivní zkratka pro „GNU's Not Unix!“. Jedná se o projekt, který měl za cíl vystavět nový operační systém kompatibilní s Unixem. Všechen kód vytvořený pod
+tímto projektem je tzv. free software (svobodný software). Jedná se o filosofii vývoje software jejíž parafrázovaná definice je následující. Svobodný (free) software se
+vztahuje ke svobodě, ne k ceně. Slovo svobodný (free) by mělo být bráno ve významu svobodný projev (free speech) nikoliv pivo zdarma (free beer) \cite{FreeSoftware}.
 
-V projektu GNU postupně vznikali jednotlivé softwareové balíky, které měli ve výsledku poskládat nový operační systém. Pod projektem GNU vnikli aplikace jako překladač GCC,
-textový fomátovač TeX, terminálový shell Bash a mnohé další. Na počátku 90. let byl systém téměř hotový, jediné co scházelo bylo jádro. Ve stejném období dokončoval
+V projektu GNU postupně vznikali jednotlivé softwarové balíky, které měli ve výsledku poskládat nový operační systém. Pod projektem GNU vnikli aplikace jako překladač GCC,
+textový formátovač TeX, terminálový shell Bash a mnohé další. Na počátku 90. let byl systém téměř hotový, scházelo jen jádro operačního systému. Ve stejném období dokončoval
 Linus Torvalds své jádro operačního systému nazývané Linux.\cite{GNULinux}\cite{GNULinux2} 
 
-Tak vznikla myšlenka tyto dva projekty spojit a vnikl GNU/Linux. Balíčky projektu GNU umožnovali práci se systémem postaveným nad Linuxovým jádre. Všechny dnešní distribuce
-jako jsou Debian, Fedora a další jsou distribuce systému GNU/Linux. Linux je název pouze jádra pro operační systém, který zevšeobecněl a je tímto názvem chybně označováno
-celý systém. Projekt GNU dodnes vyvýjí své jádro pojmenované GNU Hurd, se kterým by vznikl operační systém GNU, což byl počáteční cíl projektu.\cite{GNULinux2}
+Vznikla tedy myšlenka tyto dva projekty spojit a po vyřešení problémů s kompatibilitou jednotlivých částí projektů vnikl GNU/Linux. Balíčky projektu GNU umožnovali práci
+se systémem postaveným nad Linuxovým jádrem. Všechny dnešní distribuce jako jsou Debian, Fedora a další jsou distribuce systému GNU/Linux. Linux je název pouze jádra pro 
+operační systém, který zevšeobecněl a je tímto názvem chybně označován celý systém. Projekt GNU dodnes vyvíjí své jádro pojmenované GNU Hurd, se kterým by vznikl operační
+systém GNU, což byl počáteční cíl projektu.\cite{GNULinux2}
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=0.6\linewidth]{other-fig/userspace.jpg}
+    \caption{Architektura GNU/Linux. Převzato z \cite{Userspace}}
+    \label{fig:gnu_linux_architecture}
+\end{figure*}
+
+Architekturu GNU/Linux vyobrazená na obrázku \ref{fig:gnu_linux_architecture} vyznačuje hranici mezi kernelem a uživatelským prostorem. Jádro/kernel běží v tzv. priviligovaném
+režimu, což je režim s nejvyššími oprávněním a může na CPU provádět jakékoliv operace. Všechny ostatní aplikace beží v uživatelském prostoru a jsou omezeny jen na provádění 
+podmnožiny operací oproti priviligovanému režimu. Pokud aplikace potřebuje vykonat operaci, která vyžaduje vyšší oprávnění, zažádá jádro operačního systému, aby tuto operaci 
+provedlo za místo ní. Tím je docíleno vyššího zabezpečení operačního systému.
 
 \subsection{C++/C}
 
 Jazyk C patří do skupiny dlouho používaných programovacích jazyků. Se svoji bohatou historií sahající až do 70. let 20. století velmi ovlivnil další nástupnické procedurální
-jazyky jako C++, C\#, Java atd. V roce 1989 byl jazyk standardizován jako ANSI C a následně přišli ISO standardy označované jako C99, C11, C17. Patří mezi vysokoúrovňové
-programovací jazyky, přestože se jedná o relativně jednoduchý programoací jazyk obsahující malé množství konstrukcí.\cite{CReference}
+jazyky jako C++, C\#, Java atd. v roce 1989 byl jazyk standardizován jako ANSI C a následně přišli ISO standardy označované jako C99, C11, C17. Jazyk C je řazen mezi
+vysokoúrovňové programovací jazyky, přestože relativně jednoduchý a obsahuje malé množství konstrukcí v porovnání s ostatními jazyky.\cite{CReference}
 
-Vývoj C++ je oproti C dynamičtější, což můžeme vidět na jednotlivých ISO standardech C++98, C++03, C++11, C++14, C++17 a C++20. Jazyk C++ se v poslední dekádě velmi
-proměnil a období od standardu C++11 je označováno za doubu „moderního C++“. V posledním standardu přibyla podpora konceptů nebo rozsahů.\cite{CPPReference}
+Vývoj C++ je oproti C dynamičtější, což můžeme vidět na jednotlivých ISO standardech C++98, C++03, C++11, C++14, C++17 a C++20. Jazyk C++ se v poslední dekádě velmi
+proměnil a období od standardu C++11 je označováno za dobu „moderního C++“. v posledním standardu přibyla například podpora konceptů nebo rozsahů.\cite{CPPReference}
 
-Při využití překladačů GCC nebo G++ lze využít tzv. GNU rozšiřující standardy. Poté je možné využít některé konstrukce, které nejsou specifikované v oficiálním ISO standardu.
-V případě jazyka C se jedná o standary pojmenované GNU99, GNU11 a GNU17, v případě C++ se jedná o GNU++11 a jemu podobné.
+Při využití překladačů GCC nebo G++ lze využít tzv. GNU rozšiřující standardy. Poté je možné využít některé konstrukce, které nejsou specifikované v oficiálním ISO standardu.
+V případě jazyka C se jedná o standardy pojmenované GNU99, GNU11 a GNU17, v případě C++ se jedná o GNU++11 a jemu podobné.
 
 \subsection{HTTP}
 
-Hypertext Transfer Protokol je protokol aplikační vrsty TCP/IP stacku. Byl vytvořen pro přenášení hypertextových souborů v 90. letech 20. století a dnes se jedná o
-nejrozšířenější aplikační protokol. Poslední stabilní verze protokolu je označená jako HTTP/2 vydaná v roce 2015. Aktuálně je ve fázi specifikace nástupce pojmenovaný HTTP/3.
+Hypertext Transfer Protokol je protokol aplikační vrstvy TCP/IP stacku. Byl vytvořen pro přenášení hypertextových souborů v 90. letech 20. století a dnes se jedná o
+nejrozšířenější aplikační protokol. Poslední stabilní verze protokolu označená jako HTTP/2 byla vydaná v roce 2015. Aktuálně je ve fázi specifikace nástupce pojmenovaný HTTP/3.
 
-HTTP v čisté formě se dnes moc nepoužívá, ale využívá se ve spojení s TLS. Při komunikaci se nejprve vytvoří TCP spojení a poté šifrovaný kanál, skrze který je HTTP
-bezpečně přenášeno. Toto řešení není nejefektivnější, protože vznikalo postupně a spojovali se technologie, které nebyly od počátku navržené pro tento účel. Ve většině případů
-uživatel nepozná co se děje pod povrchem, ale takovéto spojení například trpí dlouho časovou prodlevou, než se ustálí pro přenášení dat. Tento problém má vyřršit právě nová
-verze HTTP.\cite{HTTP3}
+HTTP v čisté formě dnes již téměř není možné potkat, ale využívá se ve spojení s šifrovacím protokolem TLS. Při komunikaci se nejprve vytvoří TCP spojení a poté šifrovaný kanál,
+skrze který je HTTP bezpečně přenášeno. Toto řešení není nejefektivnější, protože vznikalo postupně a spojovali se technologie, které nebyly od počátku navržené pro tento účel.
+Ve většině případů uživatel na stabilním připojení nezaregistruje žádné potíže, kterými tyto technologie trpí. Jedním z problémů je dlouhá časová prodleva, než se kanál ustálí
+pro přenášení dat. Tento problém má vyřešit právě nová verze HTTP.\cite{HTTP3}
 
 \begin{figure*}[h]
     \centering
     \includegraphics[width=0.8\linewidth]{other-fig/http_comparison.png}
-    \caption{Porovnání HTTP verze 2 (a) a 3 (b). Převzato z „HTTP over UDP: An Experimental Investigation of QUIC“\cite{HTTP3}}
+    \caption{Porovnání HTTP verze 2 (a) a 3 (b). Převzato z \cite{HTTP3}}
     \label{fig:http_comparison}
 \end{figure*}
 
-Nová verze využívá nový protokol QUIC, který využívá protokol UDP namísto TCP jako tomu bylo u předchozích verzích HTTP. Na obrázku \ref{fig:http_comparison} je možné vidět,
-že navázání komunikace je ze tří výměn informací zredukováno jen na jednu. Formát hlavičky by měl zůstat nezměněný a tudíž je zpětně kompatipilní.
+Nová verze využívá nový protokol QUIC, který je přenášen protokolem UDP namísto TCP jako tomu bylo u předchozích verzích HTTP. Na obrázku \ref{fig:http_comparison}
+je možné vidět, že navázání komunikace je ze tří výměn informací zredukováno jen na jednu. Formát hlavičky HTTP by měl zůstat nezměněný, a tudíž je zpětně kompatibilní.
 
-Pro tento projekt je důležitá práce s datumy a jejich formáty v HTTP hlavičce. RFC7231 specifikuje tři formáty datumů, z nichž dva jsou označené jako zastaralé,
-ale jsou stále validní.\cite{RFC7231}
+Pro tento projekt je důležitá práce s datumy, přesněji formáty umožněné přenášet ve validní HTTP hlavičce. RFC7231 specifikuje tři formáty datumů, z nichž dva
+jsou označené jako zastaralé, ale jsou stále validní. Udržované jsou kvůli zpětné kompatibilitě s protokolem HTTP/1.1.\cite{RFC7231}
+
+\newpage
 
 \begin{itemize}
     \item Upřednostňovaný formát
@@ -313,44 +330,117 @@ ale jsou stále validní.\cite{RFC7231}
 
 \subsection{OpenAPI}
 
-Jedná se o standard pro definování metod REST API, ketrý má v čase psaní této práce poslední verzi 3.0.3. Zápis je možný ve dvou jazycích a to JSON a YAML. Oba 
-je možné strojově zpracovat a přitom jsou pro člověka stále čitelné. 
+Jedná se o standard pro definování metod REST API, který má v čase psaní této práce poslední verzi 3.0.3. Zápis je možný ve dvou jazycích: JSON a YAML. Oba 
+je možné strojově zpracovat a přitom jsou pro člověka stále čitelné. 
 
-Specifikace je velmi obsáhlá a umožňuje popsat API velmi detailně a přitom efektivně. Například je možné vytvářet šablony datových strukturu, které jsou používány jako
-vstupní nebo naopak návratová hodnoty jednotlivých funkcí. V definici je pak možné na tuto šablonu odkázat. Struktura souboru je hierarchcká a skládá se z jednotlivých objektů.
-Každý objekt má povinné a volitelné atributy. Definovat tedy lze hlavičky požadavku, URL query parametry, návratové kódy a k nim přiřazená návratové hlavičky a odpovědi.
-Toto byl jen stručný minimální výpis, co je možné pomocí tohoto standardu definovat.\cite{OpenAPI}
+Specifikace je velmi obsáhlá a umožňuje popsat API velmi detailně a přitom efektivně. Například je možné vytvářet šablony datových strukturu, které jsou používány jako
+vstupní nebo naopak návratové hodnoty jednotlivých funkcí. v definici je pak možné na tuto šablonu odkázat. Struktura souboru je hierarchická a skládá se z jednotlivých objektů.
+Každý objekt má povinné a volitelné atributy. Definovat tedy lze hlavičky požadavku, URL query parametry, návratové kódy a k nim přiřazené hlavičky odpovědí a odpovědi samotné,
+případně příklady možných odpovědí. Toto je jen stručný výpis možností, které standard OpenAPI definuje.\cite{OpenAPI}
 
-\subsection{Mock server}
+\subsection{Mock Server}
 
-- testovací vzor mock serveru
+Mock Server je speciální případ testovacího vzoru Mock Object, který spadá do kategorie Test Double. Test Double je kategorie testovacích vzorů, do které patří
+vzory jako právě Mock Object, Fake Object, Test Stub apod. Jednotlivé vzory mohou být mezi sebou zaměnitelné, protože jejich definice a použití je velmi podobné. 
+Tato kategorie vrozů je využívaná pro systémy, které pracují s určitou externí komponentou, která není dostupná nebo by testování ovlivnila svými nežádoucími
+vedlejšími účinky.\cite[522--524]{UnitPatternsTest} k využití Mock Serveru bylo přistoupeno z důvodu nedostupnosti VDU, při vzniku této práce. Mock Server nebyl využíván 
+jen pro účeli testování, ale i během vývojové fáze. Aby nedošlo k zanesení chyby do software během vývoje, byla napsána sada testů, která ověřovala správnou
+implementaci Mock Serveru vůči předem specifikované definici.
 
-\cite{MockServer}
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=0.67\linewidth]{other-fig/mock_object.png}
+    \caption{Test Double schéma. Převzato z \cite[544]{UnitPatternsTest}}
+\end{figure*}
+
+Mock Object pokrývá funkcionalitu Test Stub vzoru a na vývojáři záleží, jakým způsobem využije tyto možnosti. v kontextu této práce by se používaný Mock Server dal
+klasifikovat jako pouhý Test Stub, protože není využívaná verifikující část, kterou definuje Mock Object vzor.\cite[524--525]{UnitPatternsTest} Verifikovaný je pouze
+výstup funkcí v testovaném systému.
 
 \subsection{Souborový systém v uživatelském prostoru (FUSE)}
 \label{sec:fuse}
 
-- co je to fuse
-- jak funguje (démon, blokové zařízení, ...)
-- operace, které je možné implementovat
-    - minimálně potřebné operace pro funkční fuse
+FUSE je označení pro File system in userspace a jedná se o framework umožňující vytvořit vlastní virtuální souborový systém v uživatelském prostoru. FUSE se skládá
+ze dvou čistí, démona a modulu pro jádro operačního systému. Je-li modul načtený registruje ovladač v Linuxovém VFS (Virtual filesystem). Tento ovladač poté
+představuje proxy pro všechny běžící démony. FUSE driver obsahuje několik front pro obsloužení všech potřebných akcí. Nejprioritnější fronta je pro obsloužení
+přerušení, ostatní fronty jsou pro obsluhu synchronních, asynchronních a a tvz. forget požadavků. Priorita zpracování těchto front je daná poměrem 8 ku 16 pro 
+synchronní a asynchronní ku forget požadavkům.\cite{FuseOrNotToFuse}
 
-\cite{FuseOrNotToFuse}
-\cite{HardeningFUSE}
+\begin{figure*}[h]
+    \begin{subfigure}[h]{.45\linewidth}
+        \centering
+        \includegraphics[width=1 \linewidth]{other-fig/FUSE_architecture.png}
+        \caption{Architektura. Převzato z \cite{FuseOrNotToFuse}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[h]{.45\linewidth}
+        \centering
+        \includegraphics[width=1 \linewidth]{other-fig/FUSE_dataflow.png}
+        \caption{Datový tok. Převzato z \cite{HardeningFUSE}}
+        \label{fig:fuse_dataflow}
+    \end{subfigure}
+    \caption{Vysokoúrovňové diagramy architketury a datového toku pro FUSE}
+\end{figure*}
 
-\subsection{DBus}
+Démon zpracovává postupně požadavky, které se přidávají do front ve FUSE ovladači. Na obrázku \ref{fig:fuse_dataflow} je vidět jak požadavek prochází jednotlivými částmi
+systému. Aplikace přistoupí na připojený FUSE souborový systém a požadavek projde skrze VFS a FUSE ovladač až k démonovi. Démon daný požadavek zpracuje, ve většině případů
+přistoupí na hostitelský souborový systém a vykoná na něm požadovanou operaci. Odpověď je poté navrácena stejným způsobem, jakým byla přenesena k FUSE démonovi.
 
-- co to je 
-- jaké systémové služby je možné přes to ovládat
+Démon nemusí implementovat všechny operace, záleží jen na požadavcích. Je-li potřeba vytvořit souborový systém jen pro čtení, implementují se například operace
+INIT, OPEN, GETATTR, READ a RELEASE. Mohou být implementované další kvůli optimalizacím nebo řešící specifické případy. Více informací k jednotlivým operacím
+je možné dohledat v dokumentaci libfuse\footnote{\url{http://libfuse.github.io/doxygen/structfuse__operations.html}}.
+
+\newpage
+
+\begin{table}[h]
+    \begin{center}
+        \begin{tabularx}{14cm}{|l|X|} 
+            \hline
+            \textbf{Skupina} & \textbf{Typ požadavku} \\
+            \hline
+            Speciální & INIT, DESTROY, INTERRUPT \\
+            \hline
+            Metadata & LOOKUP, FORGET, BATCHFORGET, CREATE, UNLINK, LINK, RENAME, RE-NAME2, OPEN, RELEASE, STATFS, FSYNC, FLUSH, ACCESS \\
+            \hline
+            Data & READ, WRITE \\
+            \hline
+            Atributy & GETATTR, SETATTR \\
+            \hline
+            Rozšířené atributy & SETXATTR, GETXATTR, LISTXATTR, REMOVEXATTR \\
+            \hline
+            Symbolické linky & SYMLINK, READLINK \\
+            \hline
+            Složky & MKDIR, RMDIR, OPENDIR, RE-LEASEDIR, READDIR, READDIRPLUS, FSYNCDIR \\
+            \hline
+            Zamikání & GETLK, SETLK, SETLKW \\
+            \hline
+            Misc & BMAP, FALLOCATE, MKNOD, IOCTL, POLL, NOTIFYREPLY \\
+            \hline
+        \end{tabularx}
+        \caption{Tabulka typů poždavku pro zpracování FUSE démonem. Převzato z \cite{FuseOrNotToFuse}}
+    \end{center}
+\end{table}
+
+\subsection{D-Bus}
+
+D-Bus je systém pro posílání zpráv mezi jednotlivými aplikacemi. Přesněji se jedná o Inter-Process Communication (IPC) a Remote Procedur Calling (RPC) mechanizmus
+vytvořený pro komunikaci mezi jednotlivými procesy na stejném počítači. D-Bus funguje na Unix-like systémech a port pro operační systém Windows je také dostupný. Objekty
+jsou identifikovány kombinací tzv. „bus name“ a „object path“.\cite{DBus}
+
+Existují dva typy „bus name“, jeden je unikátní a je přiřazen každé připojené aplikaci na sběrnici. Pro tyto unikátní jména lze vytvořit alias nazývaný jako
+„well-known bus name“. Například pro přístup ke keyringu je používaný alias „org.freedesktop.secret“. „Object path“ poté identifikuje danou funkci zpřístupněnou 
+pro D-Bus. Komunikace klienta s danou službou poté funguje velmi podobně jako zjišťování IP adresy z doménového jména pomocí DNS. Klient započne komunikaci dotazem
+na přeložení „well-known bus name“. v odpovědi dostane unikátní „bus name“, který může využít pro komunikaci s cílovým procesem.\cite{DBus}
 
 \subsection{Keyring}
 
-- co to je
-- jak to funguje
-- implementace (gnom-kering, kde-wallet, linux-keyring)
-    - odlišnosti implemnetací
+Pro ukládání hesel nebo tokenů pro aktuálně přihlášeného uživatele v systému lze využít službu pojmenovanou keyring. Podle implementace se heslo uloží na disk
+nebo je jen načtené v operační paměti. Pokud je uživatel přihlášený, je mu heslo k dispozici, při vypnutí systému nebo odhlášení uživatele je heslo z operační paměti
+odstraněno. Ukládá-li se heslo na disk, je zašifrováno a odšifrovat ho může jen uživatel, který heslo do keyringu uložil. Pokud není heslo k dispozici musí jej aplikace 
+od uživatele vyžádat a do keyringu případně uložit.\cite{Keyring}
 
-\cite{Keyring}
+GNU/Linux obsahuje keyring aplikaci pojmenovanou linux-keyring. Některé desktopová prostředí obsahují své keyring aplikace, které rozšiřují možnosti základního linux-keyringu.
+Například desktopové prostředí GNOME obsahuje aplikaci gnome-keyring a desktopové prostředí KDE zase aplikaci kde-wallet.\cite{Keyring}
 
 % ---------------------------------------------------------------------------------------------------------------------------------------
 \chapter{Popis implementace a nasazení aplikace}
