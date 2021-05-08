@@ -62,24 +62,24 @@ ale je možné poukázat na rozdílné vlastnosti a vyzdvihnout kladné. Koncov
 \section{Google Drive}
 
 Pro synchronizaci obsahu z Google Drive na osobní počítač se využívá aplikace pojmenovaná Google File Stream. Je možné ji provozovat pouze na systémech
-Windows a Mac OS.\cite{GoogleFileStream} Pro Linuxové distribuce lze využít například neoficiální open source aplikaci 
+Windows a Mac OS. \cite{GoogleFileStream} Pro Linuxové distribuce lze využít například neoficiální open source aplikaci 
 Google Drive OCamlFUSE\footnote{\url{https://github.com/astrada/google-drive-ocamlfuse}} využívající technologii
 FUSE, která bude popsána v následující kapitole \ref{sec:fuse}. Google Disk poskytuje plně funkční webové rozhraní,
 ve kterém je možné dokumenty přímo upravovat bez nutnosti stahování. Problém nenastal ani v případě konkurenčních Microsoft Office dokumentů. 
 
 Google Workspace (dříve Google Suite) je možné pořídit v několika balíčcích. Například balíček Bussiness Standard nabízí 2 TB uložiště za 10,40 EUR měsíčně.
-Balíček obsahuje další služby jako firemní email a schůzky až o 150 účastnících na Google Meet.\cite{GoogleWorkspace}
+Balíček obsahuje další služby jako firemní email a schůzky až o 150 účastnících na Google Meet. \cite{GoogleWorkspace}
 
 Každý uživatel má vlastní disk s omezenou kapacitou podle balíčku. Na disku lze vytvářet standartní složkovou hierarchii a je možné sdílet jednotlivé soubory nebo
 obsah složek s ostatními Google uživateli. Verze Enterprise umožňuje vytváření dalších disků, na které je možné přiřadit seznam uživatelů. Každý uživatel
 má nastavenou jednu z 6 rolí, které vymezují jeho možnosti. k dispozici je API, která pokrývá veškeré možnosti webového rozhraní jako vytvoření souboru,
-sdílení atd.\cite{GoogleAPIReference}
+sdílení atd. \cite{GoogleAPIReference}
 
 \section{Dropbox}
 
 Dropbox má oficiální balíčky své aplikace pro Ubuntu a Fedoru, případně je možné si aplikaci zkompilovat ze zdrojových souborů. Podpora Windows a Mac OS je samozřejmostí.
 Z práce „Personal Cloud Storage Benchmarks and Comparison“ lze vyčíst, že Dropbox se zaměřuje na efektivitu přenosu a minimální zatížení sítě.
-Využívá menší množství TCP spojení oproti jeho konkurentům a také stejně jako Google Drive komprimuje data před odesláním.\cite{CloudStorageComparison}
+Využívá menší množství TCP spojení oproti jeho konkurentům a také stejně jako Google Drive komprimuje data před odesláním. \cite{CloudStorageComparison}
 Toto řešení nemusí dosahovat nejvyšší výkonosti, ale nezatěžuje tolik infrastrukturu. 
 
 Webové rozhraní je více orientováno na správu souborů a jejich historii. Nabízí jednoduché obnovení smazaných souborů nebo návrat k předchozí verzi.
@@ -87,13 +87,13 @@ Nenabízí tolik možností jako Google Drive, ale upravovat dokumenty ve webov�
 Sdílení souborů a složek je možné i s uživateli, kteří nemají Dropbox účet.
 
 Balíček Plus za 9,99 EUR měsíčně dává uživateli přístup ke 2 TB uložišti. Firemní balíčky obsahují rozšíření pro lepší správu uživatelů, vytváření skupin
-a admin panel/konzole. Dropbox má také API nabízející dostatečnou funkcionalitu pro případnou integraci s jinými systémy apod.\cite{Dropbox}
+a admin panel/konzole. Dropbox má také API nabízející dostatečnou funkcionalitu pro případnou integraci s jinými systémy apod. \cite{Dropbox}
 
 \section{pCloud}
 
 Poskytovatel pCloud podporuje nejpoužívanější platformy, a to včetně mobilních. Za 9,99 EUR měsíčně dostane uživatel 2 TB uložiště. Jako jediný z poskytovatelů
 v analýze nabízí balíček s jednorázovou platbou za cenu 350 EUR. Jedná se o identický balíček, pouze forma platby se liší. Všechna data jsou přenášena přes
-šifrovaný kanál a všechny kopie souborů na pěti různých serverech jsou šifrovaná 256bitovým AES klíčem.\cite{pCloud}
+šifrovaný kanál a všechny kopie souborů na pěti různých serverech jsou šifrovaná 256bitovým AES klíčem. \cite{pCloud}
 
 Webové rozhraní je jednoduché, avšak oproti konkurentům má méně funkcí. Lze zobrazit náhled dokumentů, ale upravovat je nelze. Každý soubor má tzv. revize 
 a je možné obnovit obsah souboru na vybranou revizi. Revize jsou uchovány po dobu jednoho roku. Soubory je možné sdílet i s uživateli, kteří nemají účet u pCloudu. 
@@ -103,8 +103,7 @@ Pro firemní zákazníky je nabízený rozšířený management uživatelů a m
 \section{Syncthing}
 
 Open source aplikace Syncthing synchronizuje soubory peer-to-peer. Nejedná se o čistou peer-to-peer architekturu, protože jeden z uzlů může být
-nastaven jako server a veškeré data budou synchronizována vůči tomuto uzlu. Syncthing je možné provozovat na většině dnešních systémů jako Windows, Linux, BSD a
-Mac OS.\cite{Syncthing}
+nastaven jako server a veškeré data budou synchronizována vůči tomuto uzlu. Syncthing je možné provozovat na většině dnešních systémů jako Windows, Linux, BSD a Mac OS. \cite{Syncthing}
 
 Aplikace poskytuje webové rozhraní, které je určené pouze pro nastavení parametrů jako discovery protokol pro objevování ostatních uzlů, jaké složky mají být synchronizovány
 nebo kolik verzí jednotlivých souborů má být uchováváno a mnoho dalšího. Velká přizpůsobivost umožňuje upravit fungování aplikace vlastním potřebám, na druhou
@@ -140,8 +139,8 @@ oprávnění superuživatele \texttt{root}.
 
 Na základě požadavků bylo možné přímo vytvořit diagram případu užití. Pouze jedna věc nebyla konkrétně specifikovaná. Webová aplikace musí předat té desktopové 
 přístupový token, pomocí kterého lze volat potřebné API metody VDU. v úvahu přišlo stažení „fake“ souboru obsahující pouze přístupový token. Druhou možností bylo
-přesměrování na speciální URL z VDU. Prohlížeč by na základě přesměrování rozpoznal, že má otevřít určenou aplikaci a předat ji token jako jeden z
-parametrů volání. Varianta se speciální URL působí na uživatele mnohem ucelenějším dojmem a nevytváří na souborovém systém dále nepotřebné soubory.
+přesměrování na speciální URL z VDU. Prohlížeč by na základě přesměrování rozpoznal, že má otevřít určenou aplikaci a předat ji token jako jeden z parametrů
+volání. Varianta se speciální URL působí na uživatele mnohem ucelenějším dojmem a nevytváří na souborovém systém dále nepotřebné soubory.
 
 Diagram případů užití zachycuje celý systém jako celek a zobrazuje jednotlivé funkce a jejich návaznosti, které je třeba dále analyzovat a specifikovat v dalších
 fázích návrhu. v diagramu \ref{fig:use_case} vystupují tři aktéři a to uživatel, FUSE agent/démon a VDU. Implementace VDU není obsahem této práce, proto je oddělena červenou
@@ -195,7 +194,7 @@ Mock Server ve webové aplikaci Postman.
 
 Zvažovány byly dvě implementační varianty, jedna verze pracoval pouze s FUSE démonem a druhá rozdělila funkčnost do samostatné aplikace a FUSE démona. První variantu by
 bylo možné zpracovat dvěma obdobnými způsoby, jež by vedli ke obdobnému řešení. FUSE démon je napsaný v jazyce C, takže jedno z nabízejících se řešení by byla implementace
-celé aplikace jednom jazyce. Druhým řešením by bylo vytvoření C++ knihovny, která by měla interface pro jazyk C. Takto vytvořená knihovna by mohla být konzumována FUSE démonem.
+celé aplikace jednom jazyce. Druhým řešením by bylo vytvoření C++ knihovny, která by měla rozhraní pro jazyk C. Takto vytvořená knihovna by mohla být konzumována FUSE démonem.
 Nejedná se však o nijak kriticky náročnou aplikaci na výkon, takže by varianta s C++ knihovnou byla upřednostňovaná, protože standartní knihovna jazyka C++ a jeho konstrukce 
 umožňují jednodušší vývoj.
 
@@ -260,12 +259,12 @@ vztahuje ke svobodě, ne k ceně. Slovo svobodný (free) by mělo být bráno v
 
 V projektu GNU postupně vznikali jednotlivé softwarové balíky, které měli ve výsledku poskládat nový operační systém. Pod projektem GNU vnikli aplikace jako překladač GCC,
 textový formátovač TeX, terminálový shell Bash a mnohé další. Na počátku 90. let byl systém téměř hotový, scházelo jen jádro operačního systému. Ve stejném období dokončoval
-Linus Torvalds své jádro operačního systému nazývané Linux.\cite{GNULinux}\cite{GNULinux2} 
+Linus Torvalds své jádro operačního systému nazývané Linux. \cite{GNULinux} \cite{GNULinux2} 
 
 Vznikla tedy myšlenka tyto dva projekty spojit a po vyřešení problémů s kompatibilitou jednotlivých částí projektů vnikl GNU/Linux. Balíčky projektu GNU umožnovali práci
 se systémem postaveným nad Linuxovým jádrem. Všechny dnešní distribuce jako jsou Debian, Fedora a další jsou distribuce systému GNU/Linux. Linux je název pouze jádra pro 
 operační systém, který zevšeobecněl a je tímto názvem chybně označován celý systém. Projekt GNU dodnes vyvíjí své jádro pojmenované GNU Hurd, se kterým by vznikl operační
-systém GNU, což byl počáteční cíl projektu.\cite{GNULinux2}
+systém GNU, což byl počáteční cíl projektu. \cite{GNULinux2}
 
 \begin{figure*}[h]
     \centering
@@ -293,13 +292,13 @@ V případě jazyka C se jedná o standardy pojmenované GNU99, GNU11 a GNU17,
 
 \subsection{HTTP}
 
-Hypertext Transfer Protokol je protokol aplikační vrstvy TCP/IP stacku. Byl vytvořen pro přenášení hypertextových souborů v 90. letech 20. století a dnes se jedná o
-nejrozšířenější aplikační protokol. Poslední stabilní verze protokolu označená jako HTTP/2 byla vydaná v roce 2015. Aktuálně je ve fázi specifikace nástupce pojmenovaný HTTP/3.
+Hypertext Transfer Protokol je protokol aplikační vrstvy TCP/IP stacku. Byl vytvořen pro přenášení hypertextových souborů v 90. letech 20. století a dnes se jedná o nejrozšířenější
+aplikační protokol. Poslední stabilní verze protokolu označená jako HTTP/2 byla vydaná v roce 2015. Aktuálně je ve fázi specifikace nástupce pojmenovaný HTTP/3.
 
 HTTP v čisté formě dnes již téměř není možné potkat, ale využívá se ve spojení s šifrovacím protokolem TLS. Při komunikaci se nejprve vytvoří TCP spojení a poté šifrovaný kanál,
 skrze který je HTTP bezpečně přenášeno. Toto řešení není nejefektivnější, protože vznikalo postupně a spojovali se technologie, které nebyly od počátku navržené pro tento účel.
 Ve většině případů uživatel na stabilním připojení nezaregistruje žádné potíže, kterými tyto technologie trpí. Jedním z problémů je dlouhá časová prodleva, než se kanál ustálí
-pro přenášení dat. Tento problém má vyřešit právě nová verze HTTP.\cite{HTTP3}
+pro přenášení dat. Tento problém má vyřešit právě nová verze HTTP. \cite{HTTP3}
 
 \begin{figure*}[h]
     \centering
@@ -312,7 +311,7 @@ Nová verze využívá nový protokol QUIC, který je přenášen protokolem UDP
 je možné vidět, že navázání komunikace je ze tří výměn informací zredukováno jen na jednu. Formát hlavičky HTTP by měl zůstat nezměněný, a tudíž je zpětně kompatibilní.
 
 Pro tento projekt je důležitá práce s datumy, přesněji formáty umožněné přenášet ve validní HTTP hlavičce. RFC7231 specifikuje tři formáty datumů, z nichž dva
-jsou označené jako zastaralé, ale jsou stále validní. Udržované jsou kvůli zpětné kompatibilitě s protokolem HTTP/1.1.\cite{RFC7231}
+jsou označené jako zastaralé, ale jsou stále validní. Udržované jsou kvůli zpětné kompatibilitě s protokolem HTTP/1.1. \cite{RFC7231}
 
 \newpage
 
@@ -336,7 +335,7 @@ je možné strojově zpracovat a přitom jsou pro člověka stále čitelné.
 Specifikace je velmi obsáhlá a umožňuje popsat API velmi detailně a přitom efektivně. Například je možné vytvářet šablony datových strukturu, které jsou používány jako
 vstupní nebo naopak návratové hodnoty jednotlivých funkcí. v definici je pak možné na tuto šablonu odkázat. Struktura souboru je hierarchická a skládá se z jednotlivých objektů.
 Každý objekt má povinné a volitelné atributy. Definovat tedy lze hlavičky požadavku, URL query parametry, návratové kódy a k nim přiřazené hlavičky odpovědí a odpovědi samotné,
-případně příklady možných odpovědí. Toto je jen stručný výpis možností, které standard OpenAPI definuje.\cite{OpenAPI}
+případně příklady možných odpovědí. Toto je jen stručný výpis možností, které standard OpenAPI definuje. \cite{OpenAPI}
 
 \subsection{Mock Server}
 
@@ -354,7 +353,7 @@ implementaci Mock Serveru vůči předem specifikované definici.
 \end{figure*}
 
 Mock Object pokrývá funkcionalitu Test Stub vzoru a na vývojáři záleží, jakým způsobem využije tyto možnosti. v kontextu této práce by se používaný Mock Server dal
-klasifikovat jako pouhý Test Stub, protože není využívaná verifikující část, kterou definuje Mock Object vzor.\cite[524--525]{UnitPatternsTest} Verifikovaný je pouze
+klasifikovat jako pouhý Test Stub, protože není využívaná verifikující část, kterou definuje Mock Object vzor. \cite[524--525]{UnitPatternsTest} Verifikovaný je pouze
 výstup funkcí v testovaném systému.
 
 \subsection{Souborový systém v uživatelském prostoru (FUSE)}
@@ -364,7 +363,7 @@ FUSE je označení pro File system in userspace a jedná se o framework umož�
 ze dvou čistí, démona a modulu pro jádro operačního systému. Je-li modul načtený registruje ovladač v Linuxovém VFS (Virtual filesystem). Tento ovladač poté
 představuje proxy pro všechny běžící démony. FUSE driver obsahuje několik front pro obsloužení všech potřebných akcí. Nejprioritnější fronta je pro obsloužení
 přerušení, ostatní fronty jsou pro obsluhu synchronních, asynchronních a a tvz. forget požadavků. Priorita zpracování těchto front je daná poměrem 8 ku 16 pro 
-synchronní a asynchronní ku forget požadavkům.\cite{FuseOrNotToFuse}
+synchronní a asynchronní ku forget požadavkům. \cite{FuseOrNotToFuse}
 
 \begin{figure*}[h]
     \begin{subfigure}[h]{.45\linewidth}
@@ -425,53 +424,251 @@ je možné dohledat v dokumentaci libfuse\footnote{\url{http://libfuse.github.i
 
 D-Bus je systém pro posílání zpráv mezi jednotlivými aplikacemi. Přesněji se jedná o Inter-Process Communication (IPC) a Remote Procedur Calling (RPC) mechanizmus
 vytvořený pro komunikaci mezi jednotlivými procesy na stejném počítači. D-Bus funguje na Unix-like systémech a port pro operační systém Windows je také dostupný. Objekty
-jsou identifikovány kombinací tzv. „bus name“ a „object path“.\cite{DBus}
+jsou identifikovány kombinací tzv. „bus name“ a „object path“. \cite{DBus}
 
 Existují dva typy „bus name“, jeden je unikátní a je přiřazen každé připojené aplikaci na sběrnici. Pro tyto unikátní jména lze vytvořit alias nazývaný jako
 „well-known bus name“. Například pro přístup ke keyringu je používaný alias „org.freedesktop.secret“. „Object path“ poté identifikuje danou funkci zpřístupněnou 
 pro D-Bus. Komunikace klienta s danou službou poté funguje velmi podobně jako zjišťování IP adresy z doménového jména pomocí DNS. Klient započne komunikaci dotazem
-na přeložení „well-known bus name“. v odpovědi dostane unikátní „bus name“, který může využít pro komunikaci s cílovým procesem.\cite{DBus}
+na přeložení „well-known bus name“. v odpovědi dostane unikátní „bus name“, který může využít pro komunikaci s cílovým procesem. \cite{DBus}
 
 \subsection{Keyring}
 
 Pro ukládání hesel nebo tokenů pro aktuálně přihlášeného uživatele v systému lze využít službu pojmenovanou keyring. Podle implementace se heslo uloží na disk
 nebo je jen načtené v operační paměti. Pokud je uživatel přihlášený, je mu heslo k dispozici, při vypnutí systému nebo odhlášení uživatele je heslo z operační paměti
 odstraněno. Ukládá-li se heslo na disk, je zašifrováno a odšifrovat ho může jen uživatel, který heslo do keyringu uložil. Pokud není heslo k dispozici musí jej aplikace 
-od uživatele vyžádat a do keyringu případně uložit.\cite{Keyring}
+od uživatele vyžádat a do keyringu případně uložit. \cite{Keyring}
 
 GNU/Linux obsahuje keyring aplikaci pojmenovanou linux-keyring. Některé desktopová prostředí obsahují své keyring aplikace, které rozšiřují možnosti základního linux-keyringu.
-Například desktopové prostředí GNOME obsahuje aplikaci gnome-keyring a desktopové prostředí KDE zase aplikaci kde-wallet.\cite{Keyring}
+Například desktopové prostředí GNOME obsahuje aplikaci gnome-keyring a desktopové prostředí KDE zase aplikaci kde-wallet. \cite{Keyring}
 
 % ---------------------------------------------------------------------------------------------------------------------------------------
 \chapter{Popis implementace a nasazení aplikace}
 
-- Seznam použitých knihoven
+Při vývoji byly využity kromě standardních knihoven jazyka C a C++ také knihovny umožňující práci s databází, notifikování uživatele pomocí 
+systémového notifikačního systému nebo pro vytvoření automatizovaných testů apod.
 
-\section{Definice API}
-\section{Mock server}
-\section{Vyžívané cesty/soubory v Linuxové adresářové struktuře}
+\begin{itemize}
+    \item \textbf{libcurl} — Knihovna pro jednoduché přenášení dat po síti. Podporuje velkou velkou řadu protokolů jako FTP, HTTP, IMAP atd. Šifrování je zpřístupněno pomocí
+    externí knihovny (např. openssl). V posledních verzích knihovny je možné prácovat s draft verzí protokolu HTTP verze 3. \cite{libcurl}
+    \item \textbf{libnotify} — Jedná se o implementaci Desktop Notification Specification\footnote{\url{https://developer.gnome.org/notification-spec/}}, který specifikuje
+    jednotné rozhraní pro vytváření notifikací v desktopových prostředích. Pro korektní využití libnotify je třeba mít běžící notifikační server, se kterým se komunikuje
+    pomocí D-Bus. Většina desktopových prostředí má vlastní implementaci notifikačního serveru startující při spuštění systému. \cite{libnotify}
+    \item \textbf{libfuse} — nabízí funkce pro vytvoření FUSE démona, komunikující s FUSE modulem kernelu. Implementací jednotilivých operací je možné vytvořit vlasní
+    souborový systém v uživatelském prostoru. \cite{libfuse}
+    \item \textbf{libsqlite3} — Knihovna pro práci s jednosouborovou databází SQLite. Jedná se o malou samostatnou a nejpoužívanější databázi na světě. Interakce s databází
+    je vedena v jazyku SQL. Zajímavost týkající se SQLite je plán podpory a udržování do roku 2050. \cite{libsqlite}
+    \item \textbf{libssl} — Šifrovací knihovna pro obecné použití, ale s primárním zaměřením na protokoly TLS a SSL. V této práci byla použita jen pro výpočet kontrolního
+    součtu algoritmem MD5. \cite{libssl}
+    \item \textbf{libsecret} — Se službou keyring je možné komunikovat pomocí D-Bus sběrnice. Knihovna libsecret zapouzdřuje tuto komunikaci do svého API a vytváří tak
+    jednoduše použitelné rozhraní. \cite{libsecret}
+    \item \textbf{libgtest} — Google Test je testovací framework pro psaní automatizovaných C++ testů založený na xUnit architektuře. Zpřístupňuje makra tzv. asserty pro
+    ověření výroku nebo podmínky je-li pravdivá. \cite{libgtest}
+\end{itemize}
+
+\noindent Další balíčky využité při vývoji nebo jsou potřeba pro běh aplikace samotné.
+
+\begin{itemize}
+    \item \textbf{Zenity} - Aplikace pro vytváření jednoduchých dialogových oken.
+    \item \textbf{DB Browser for SQLite} neboli \textbf{sqlitebrowser} - Grafický prohlížeč SQLite databází, umožňující obrazení obsahu tabulek, vytvoření i úpravu dat
+    nebo struktury databáze.
+    \item \textbf{Doxygen} - Nástroj pro generování dokumentace z anotací v kódu. Dokumentace může být ve formátu pdf dokumentu nebo html souborů.
+\end{itemize}
+
+\section{Využívané cesty v Linuxové adresářové struktuře}
+
+Linuxová hierarchie má své konvence, kde by se jednotilivé soubory měli nacházet. Také existuje specifikace nazývaná XDG Base Directory specification, která
+řeší například ukládání aplikačních dat pro jednotlivé uživatele. Tím je myšleno, že každý uživatel může mít vlastní konfiguraci aplikace. Pro tento případ proto není
+možné používat globální složky pro tento případ určené (např. \texttt{/var}). Některé z použitých souborů nebo slože mají název začánající tečkou, jedná se o skryté
+soubory/složky. Znalý uživatel si tyto složky může ve svém průzkumníku souborů zobrazit a jednoduše k nim přistoupit.
+
+Aplikace je nastavena a byla pro tento případ i vyvýjena, že každý uživatel má vlastní konfiguraci a také ve FUSE souborovém systému vydí pouze své soubory. Toto řešení
+působilo při vývoji velké potíže, protože FUSE démon musí být spouštěn s právy superuživatele \texttt{root} a tím pádem nemůže použít proměnnou \$HOME. Bohužel totiž neukazuje
+do domovského adresáře přihlášeného uživatele, ale do domovského adresáře superuživatele \texttt{root}.
+
+Po podorbném znovu přečtení dokumentace k FUSE technologii se objevila jedna možnost, jak tento problém vyřešit. V dokumentaci však nebyl tento případ dobře rozveden, ale 
+finální řešení bylo, že binární soubor reprezentující FUSE démona musel mít nastaveného vlastníka uživatele \texttt{root} a také tomuto souboru musel být nastaven 
+tzv. suid bit. Díky tomuto nastavení může FUSE démon běžet pod přihlášeným uživatelem, avšak s oprávněními speruživatele \texttt{root}.
+\\\\
+\noindent Seznam souborů a cest využívaných aplikací:
+
+\begin{itemize}
+    \item \textbf{/usr/local/bin} — Místo pro programy neboli spustitelné soubory, přístupný pro normálního uživatele. V této složce jsou uloženy oba binární
+    soubory pojmenované \texttt{vdu-app} a \texttt{vdu-app-fuse}. Druhá jenovaná je FUSE démon, který musí mít vlastníka uživatele \texttt{root} a nastavený
+    tzv. suid bit. Apliakce \texttt{vdu-app} nevyžaduje žádné specifické požadavky.
+    \item \textbf{/mnt/vdu} — Složka \texttt{/mnt} je určená pro připojování (mount) externích paměťovách zařízení jako USB flash disk, CD apod nebo pro připojení
+    sídílené slokžy nebo síťového disku. Do této složky bude připojen FUSE souborvý systém, který bude využíván pro ukládání stažených souborů z VDU.
+    \item \textbf{\$HOME/.local/share/vdu/} — Na této cestě budou umístěny apliakční data jako databáze a složku pro ukládání obsahu z FUSE souborového systému.
+    Každému uživateli, který bude na daném operačním systému využivat \texttt{vdu-app} bude vytvořena tato složka.
+    \begin{itemize}
+        \item \textbf{/vdu.db} — SQLite 3 databáze pro ukládání podpůrných informací o souborech stažených z VDU a také metadata potřebná pro běh programu.
+        \item \textbf{/fuse} — Složka na hostitelském souborovém systému, kterou využívá FUSE démon pro čtení a ukládání dat, které jsou následně zobrazena
+        ve složce \texttt{/mnt/vdu}. Pokud by uživatel chtěl obějít FUSE souborový systém, mohl by k datům přistoupit napřímo skrze tuto složku. Poté by mohl
+        číst soubory, které již vyexpirovali, nebo zapisovat do souborů, ke kterým má pouze práva na čtení. Vlastník této složky je \texttt{root}, který jako
+        jediný může z této složky číst nebo do ní zapisovat. Jak již bylo výše popsáno FUSE démon běží s právy superuživatel \texttt{root}, takže může nad tomuto
+        složkou operovat.
+    \end{itemize}
+    \item \textbf{\$HOME/.vdu.conf} — Konfigurační soubor aplikace, který také pro každého uživatele jedinečný.
+    \item \textbf{/usr/share/applications} — Složka pro ukládání tzv. Desktop Entries, což jsou soubory definující aplikace, které mají být určitým způsoběm integrovány
+    do desktopového prostředí. Desktop Entry obsahuje údaje jako jméno, ikona, popis, přiřazený typ souboru atd.
+    \item \textbf{/etc/systemd/user} — Konfigurační složky systému \texttt{systemd}, využívaná pro definici jednotlivých systemd služeb (systemd service). V tomto 
+    případě pro služby běžící pro jednotlivé uživatele. Systémová služby by byla umístěná namíst složky \texttt{user} ve složce \texttt{system}.
+\end{itemize}
+
 \subsection{Konfigurační soubor}
+\label{subsec:config}
+
+Jedná se o textový sobor obsahující dvojice klíč a hodnota odělené znakem rovnítka. Každá tato dvojice musí být na samostatném řádku. Prázdné řádky nebo řádky
+začínající znakem „\#“ jsou přeskakovány. Jedná se o standartní pojetí konfiguračního souboru na systému GNU/Linux.
+
+Konfigurační soubor umožňuje nastavit uživatelské jméno, jména certifíkátů nebo klíčů a v neposlední řadě také volitelitelnou frázi pro zabezpečení certifikátu.
+Všechny hodnoty jsou volitelné neboli pokud nebudou v konfiguračním souboru nastavené, aplikace zvolí jejich výchozí hodnotu nebo vyzve uživatele pro informace,
+které jsou třeba doplnit pro správné fungování.
+
+Pokud není nastavono uživatelské jméno, tak výchozí hodnotou je užiatelské jméno z operačního systému. Pro certifikáty je situace podobná, nejsou-li nastavené
+všechny hodnoty jako jméno certifikátu, jmnéno certifikátu certifikační autority a jméno souboru obsahující privatní klíč pro daný certifkát. Bezpečnostní fráze 
+je volitená, protože ne každý certifikát musí být touto frází zabezpčený. Nezadává se absolutní cesta k certifkátům, ale pouze jejich jméno, protože certifikáty
+jsou následně načítány z systémového uložiště certifikátů.
+
 \subsection{SQLite databáze}
-\section{Autentifikace}
-\section{Práce se soubory}
-\subsection{Otevření souboru v příslušné aplikaci}
 
-\cite{xdg}
+Hlavní vyvíjená aplikace potřebuje uchovávat mezi jednotlivými běhy data a SQLite databáze je pro tento případ asi nejvhodnější metoda. Jedná se o jednosouborovou databázi,
+která zapouzdřuje kompletní SQL engine. Databáze obsahuje dvě tabulky a to \texttt{Files} a \texttt{Metadata}. 
 
-\section{Nasazení aplikace}
-\subsection{DPKG} %APT
-\subsection{RPM} %DNF/YUM
-\subsection{Sestavení ze zdrojových souborů}
+V tabulce \texttt{Files} jsou udržovány informace o jednotlivých souborech, které se právě nacházejí na FUSE souborovém systému.  Databáze se vytvoří automaticky pokud se 
+na dané cestě nenachází. Tabulka \texttt{Metadata} má pouze dva sloupce a funguje pro ukládání dvojice klíč a hodnota stejného typu. Taková tabulka by se dala přirovnat 
+slovníku v programovacím jazyce Python nebo C\#. C++ ekvivalent by byl konteiner \texttt{std::map}. Využívat tabulku takovým způsobem není konvenční, ale nezatěžuje to
+výovj projektu dalším odlišným způsobem ukládání malého množství dat (např. do strukturovaného souboru).
+
+\begin{figure*}[h]
+    \centering
+    \includegraphics[width=0.52\linewidth]{other-fig/database.png}
+    \caption{Schéma SQLite databáze.}
+\end{figure*}
+
+Pokud SQL dotaz obsahuje parametry využívá se postup předvytvoření dotazu bez parametrů a jejich následné navázání na již zkompilovaný dotaz. Tento postup by měl zabránit
+technice napadení databázového systému nazývané SQL injection. K tomuto účelu obsahuje libsqlite3 sadu funkcí jako \texttt{sqlite3\_prepare}, \texttt{sqlite3\_bind},
+\texttt{sqlite3\_column}. Veškerá komunikace s databází je zabpouzdřená do třídy Database.
+
+\section{xdg-utils}
+Projekt xdg-utils je soubor nástrojů a shell scriptů, který se snaží vytvořit jednotné rozhraní pro práci v různých desktopových prostředích. Asi polovina nástrojů se 
+zaměřuje na proces instalace aplikace a druhá polovina se zase věnuje integrace apliakcí do desktopového prostředí jako tevření souboru ve specifické apliakci nebo
+přiřazení ikony pro určitý typu souborů.
+
+Dále se budeme zabývat jen nástroji xdg-mime a xdg-open, které jsou v rámci této práce využívané. Xdg-open zajišťuje otevření určité URL nebo typu souboru v přiřazené aplikaci.
+Přiřazovat lze pouze k aplikacím popsaných v tzv. Desktop Entries, které jsou specifikové v Desktop Entry Specification\footnote{\url{https://specifications.freedesktop.org/desktop-entry-spec/latest/}}.
+Specifikace také definuje vestavené proměné pro předávání cesty k souboru nebo vyhledávané URL. Příkaz xdg-open je volán v případě, že je potřeba uživateli otevřít soubor ve
+správné aplikaci po stažení souboru z VDU.
+
+\begin{lstlisting}[caption={Příklad struktury Desktop Entry souboru}]
+    [Desktop Entry]
+    Type=Application
+    Version=1.0
+    Name=VDU App
+    Comment=Application for handling remote VDU files in desktop enviroment
+    Exec=/usr/local/bin/vdu-app --url-handler %u
+    MimeType=x-scheme-handler/vdu;    
+\end{lstlisting}
+
+Druhý nástroj xdg-mime umožňuje vytvořit nový MIME type nebo přiřadit k uritému MIME typu Desktop Entry aplikaci. Také umí vyhledávat jaké Desktop Entries jsou přiřazené
+k určitému MIME typu nebo k jakému MIME typu je přiřazena daná Desktop Entry. Pro registraci speciálního URL protokolu se využívá MIME type pojmenovaný 
+\mbox{x-scheme-handler/<název protokolu>}.
+
+\section{Komunikace s API}
+
+Pro komunikaci s VDU skrze protokol HTTP byla vybrána knihovna libcurl pocházející z projektu cURL vyvýjející stejně pojmenovaný nástroj. Knihovna může provádět
+synchronní i asynchronní volání na základě zvoleného rozhraní. Při vývoji bylo využito tzv. Easy rozhraní umožňující pouze synchronní volání. Využití asynchronního volání
+nedávalo smysl, protože by aplikace neměla v daném mezičase co vykonávat. Všechny API volání definované externím zadavatelem byly implemenotvané ve třídě pojmenované API.
+
+Metoda pro zneplatnění autentifikačního tokenu (DELETE /auth/key) nebyla jako jediná využita, protože aplikace implementuje valstní způsob zneplatnění tohoto tokenu. Blíže 
+je tato implementace popsaná v podsekci \ref{subsec:authentication}.
+
+\subsection{Mock Server}
+
+Pro implementaci Mock Serveru byla vybrána aplikace Posetman, nebyla to bohužel úplně nejlepší volba. Bohužel nedostatky tohoto řešení byly lehce limitující až v pozdnějších
+fázích vývoje projektu a hledat nové řešení postrádalo význam. Jiné řešení by mohlo trpět jinými nedostatky a proto bylo zvoleno kompromisní řešení.
+
+Aplikace Postman totiž využívá některé HTTP hlavičky volání pro identifikaci nebo rozhodování jak naložit s daným voláním. Při využití hlavičky x-api-key, která podle
+specifikace API VDU má obsahovat autentifikační token, je aplikací Postman toto pole vyhodnocováno také pro identifikaci a ověření privátních Mock Serverů. Aby využívaný
+Mock Server mohl zůstat veřejný, přejmenovalo se pole x-api-key na x-api-key-test. Toto nastavení muselo být řešeno na úrovni kódu a proto byly do aplikace přidané
+direktivy preprocesoru pro podmíněný překlad. Pokud je definovaný symbol VDU\_DEV, tak je využíváno jméno hlavičky s koncovkou test.
+
+Definovaný je ještě jeden symbol VDU\_HTTP\_3, který v knihovně libcurl vynucuje využití protokolu HTTP/3. Tato funkcionalita nebyl otestovaná, protože aplikace Postman 
+tento protokol ještě nepodporuje. Jedná se však o možnost dalšího rozvoje, který je třeba pouze otestovat a odladit případné nedostatky a chyby.
+
+\subsection{Autentifikace}
+\label{subsec:authentication}
+
+VDU umožňuje autentifikovat uživatele pomocí uživatelského jména a hesla nebo uživatelského jména a klientského certifikátu. Jak bylo zmíněno v podsekci \ref{subsec:config}
+tak uživatelské jméno je možné nastavit v konfiguračním souboru nebo je jako výchozí hodnota použito jméno z operačního systému.
+
+Při využívání hesla je uživatel poprvé dotázán za pomocí apliakce Zenity, aby zadal své heslo. Aplikace poté zadané heslo uloží do keyringu a je-li potřeba znovu ověřit
+uživatelovu identity je heslo vyhledáno v keyring aplikaci a automaticky využito pro tuto akci. Pokud se nejedná o keyring aplikaci ukládající data perzistentně nebo je
+heslo manuálně odebráno, tak je uživatel při nemožnosti heslo vyhledat znovu vyzván k zadání hesla.
+
+Využití certifikátů je pro uživatele pohodlnější možností, protože nenastane situace, na kterou by musel uživatel přímo reagovat a vše se děje automaticky. Pro využití
+certifikátů je třeba klientský certifikát tak i certifikát certifikační autority nainstalovat do systému pomocí nástrojů specifických pro danou distribuci. Jsou-li certifikáty
+nainstalované, poté stačí nastavit v konfiguračním souboru korektně hodnoty týkající se využití certifikátů a identita uživatele je následně ověřena za pomocí klientského
+certifikátu.
+
+Poté co je uživatel korektně ověřen aplikace obdrží od VDU token, který se uloží také do keyring aplikace pro případné znovupoužití. Informace o tokenu jsou uloženy do 
+tabulky Metadata v databázi. Jedná se přesněji o datum expirace a počet dalších použití. Aplikace má totiž implementovanou funkcionalita, že každý autentifikační token
+může být využit maximálně 5krát. Pokud má být token použit po šesté, tak je místo toho zavolaná funkce pro výměnu tokenu a nový navrácený token je použit namísto starého.
+
+\section{FUSE démon}
+
+Démon připojuje obsah složky \$HOME/.local/share/vdu/ do /mnt/vdu a pokud v připojeném bodu nastane nějaké akce řádně ji zpracuje. Implementace démona je braná minimalistiky
+a byla inspirovaná příkladem z dokumentace pojmenovaném \texttt{passthrought.c}, který zpřístupňuje kořenový adresář v přojeném bodě. Pro každou funkci implementující
+určitý typ požadavku byla brána jako základ funkce realizující stejný požadavek z příkladu passthrought. Tento příklad byl následně modifikovaný, aby jednak
+odpovídal stejné stylizaci, poté byl doplňen o komentáře. Nakonec byla přidaná další funkcionalita, případně byla modifikovaná ta stávající.
+
+FUSE démon bude registrován jako uživatelská systemd služba, která se spustí pro každého přihlášeného uživatele. Stav této služby bude možné kontrolovat pomocí příkazu
+\mbox{systemctl status vdu.service}.
+
+\subsection{Práce se soubory}
+
+Při práci se soubory na FUSE soubrovém systému mohou nastat tři situace, které jsou důležité. Jedná se o čtení, uložení a přejmenování souboru. Při čtení
+se kontroluje, jestli daný soubor není expirovaný, případně jestli soubor není write-only (VDU může změnit po jendom přečtení práva na write-only).
+Pokud je zapisuje, může se jednat o první zápis nebo modifikaci stávajcího. Modifikovaný soubor je uploadován na VDU v případě, nejedná-li se o soubor určený
+jen pro čtení. Přejmenování souboru je velmi podobné zápisu, akorát se na VDU nahrává stejný soubor s jiným jménem.
+
+\section{Shrnutí}
+Vývoj provázelo několik nepříjemností a zdržení, ale veškeré problémy se podařilo kompletně vyřešit nebo minimálně nalézt dostačující řešení. Poslední 
+nezmíněnou věcí jsou notifikace. Uživatel je informován pomocí notifikačního sytému desktopového prostření o chybách nebo informacích, že se na pozadí něco děje.
 
 % ---------------------------------------------------------------------------------------------------------------------------------------
-\chapter{Testovací sada}
+\chapter{Nasazení a testování}
 
+\section{Nasazení aplikace}
+
+- pro jednoduchost používání - balíčky pro používané distribuce
+
+\subsection{Sestavení ze zdrojových souborů}
+
+- \#define VDU\_DEV + VDH\_HTTP3
+
+\subsection{DPKG} %APT
+
+- overview
+- struktura balíčku
+
+\subsection{RPM} %DNF/YUM
+
+- overview
+- struktura balíčku
+\section{Testování}
+\subsection{Google Test}
+
+- overview
+
+\subsection{Testovací sada}
 - Testy pro funkce třídy API
+- Komplexnější testy (stažení souboru a kontrola jeho obsahu, změna souboru -> upload do VDU)
 
-\section{Google Test}
 
 % ---------------------------------------------------------------------------------------------------------------------------------------
 \chapter{Závěr}
 
-
-
+- největší zkušenosti s vývojem C\# aplikací (web + uwp)
+- c++ aplikace pro GNU/Linux = challange
+- splnění zadání...
+- chybjející VDU pro vývoj a testování

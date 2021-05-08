@@ -1164,6 +1164,11 @@ Management}{\@fit@EN}%
   \usepackage{ae}
 \fi
 
+\usepackage{url}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{dirtree}
+
 %--------------------------------------------------------
 % Oprava pro Čechy a Slováky -- vyžaduje aktuální balíčky!
 % Fix for CZECH and SLOVAK -- needs up to date packages!
