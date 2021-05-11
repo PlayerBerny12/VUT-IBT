@@ -11,11 +11,11 @@
 % zpracování / processing: make, make pdf, make clean
 %==============================================================================
 % Soubory, které je nutné upravit nebo smazat: / Files which have to be edited or deleted:
-%   projekt-20-literatura-bibliography.bib - literatura / bibliography
-%   projekt-01-kapitoly-chapters.tex - obsah práce / the thesis content
-%   projekt-01-kapitoly-chapters-en.tex - obsah práce v angličtině / the thesis content in English
-%   projekt-30-prilohy-appendices.tex - přílohy / appendices
-%   projekt-30-prilohy-appendices-en.tex - přílohy v angličtině / appendices in English
+%   xberna18-20-literatura-bibliography.bib - literatura / bibliography
+%   xberna18-01-kapitoly-chapters.tex - obsah práce / the thesis content
+%   xberna18-01-kapitoly-chapters-en.tex - obsah práce v angličtině / the thesis content in English
+%   xberna18-30-prilohy-appendices.tex - přílohy / appendices
+%   xberna18-30-prilohy-appendices-en.tex - přílohy v angličtině / appendices in English
 %==============================================================================
 \documentclass[zadani]{fitthesis} % odevzdani do wisu a/nebo tisk s barevnými odkazy - odkazy jsou barevné
 % \documentclass[zadani,cprint]{fitthesis} % pro barevný tisk - odkazy jsou černé, znak VUT barevný
@@ -233,9 +233,9 @@
   % Text prace / Thesis text
   % ----------------------------------------------
   \ifenglish
-    \input{projekt-01-kapitoly-chapters-en}
+    \input{xberna18-01-kapitoly-chapters-en}
   \else
-    \input{projekt-01-kapitoly-chapters}
+    \input{xberna18-01-kapitoly-chapters}
   \fi
   
   % Kompilace po částech (viz výše, nutno odkomentovat)
@@ -267,7 +267,7 @@
   \fi
 \fi
   \begin{flushleft}
-  \bibliography{projekt-20-literatura-bibliography}
+  \bibliography{xberna18-20-literatura-bibliography}
   \end{flushleft}
 
   % vynechani stranky v oboustrannem rezimu
@@ -327,13 +327,13 @@
   
   % Přílohy / Appendices
   \ifenglish
-    \input{projekt-30-prilohy-appendices-en}
+    \input{xberna18-30-prilohy-appendices-en}
   \else
-    \input{projekt-30-prilohy-appendices}
+    \input{xberna18-30-prilohy-appendices}
   \fi
   
   % Kompilace po částech (viz výše, nutno odkomentovat)
   % Compilation piecewise (see above, it is necessary to uncomment it)
-  %\subfile{projekt-30-prilohy-appendices}
+  %\subfile{xberna18-30-prilohy-appendices}
   
 \end{document}
